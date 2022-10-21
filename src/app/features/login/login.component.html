@@ -1,1 +1,13 @@
-<app-input-custom></app-input-custom>
+<div class="grid-center">
+  <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+    <ng-container *ngFor="let inputData of structureLoginForm">
+      <app-form-input [setUp]="inputData"></app-form-input>
+    </ng-container>
+    <app-form-checkbox></app-form-checkbox>
+    <p>forget password ?</p>
+    <app-form-btn
+      [setUp]="{ label: 'login' }"
+      [disable]="!loginForm.valid"
+    ></app-form-btn>
+  </form>
+</div>
