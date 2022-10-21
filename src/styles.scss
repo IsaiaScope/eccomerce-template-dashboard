@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@use "./styles/reset";
+
+// [ ] TODO check if change something when compiled
+// @use "./styles/abstracts" as *;
+
+@use "./styles/shared/position";
+
+@use "./styles/material/material-custom";
+
+@use "./styles/variables/color";
+@use "./styles/variables/custom";
+@use "./styles/variables/font";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
