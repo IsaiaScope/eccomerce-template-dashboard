@@ -5,9 +5,9 @@
     </ng-container>
     <app-form-checkbox></app-form-checkbox>
     <p>forget password ?</p>
-    <app-form-btn
-      [setUp]="{ label: 'login' }"
-      [disable]="!loginForm.valid"
-    ></app-form-btn>
+    <app-form-btn [setUp]="{ label: 'login' }"></app-form-btn>
+    <!-- [disable]="!loginForm.valid" -->
   </form>
+  <br />
+  <button (click)="addUser()">Register</button>
 </div>
