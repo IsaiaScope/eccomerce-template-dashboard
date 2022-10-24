@@ -4,12 +4,43 @@
   --c-Alabama: black;
   --c-Alaska: white;
 
-  --c-Arizona: #0b3140;
-  --c-Arkansas: #164d59;
-  --c-California: #458c78;
-  --c-Colorado: #88bf96;
-  --c-Connecticut: #f2f2f2;
+  --c-Arizona: rgb(11, 49, 64);
+  --c-Arkansas: rgb(22, 77, 89);
+  --c-California: rgb(69, 140, 120);
+  --c-Colorado: rgb(136, 191, 150);
+  --c-Connecticut: rgb(242, 242, 242);
+
+  --bg-gradient: linear-gradient(
+    90deg,
+    var(--c-Arizona) 0%,
+    var(--c-Arkansas) 35%,
+    var(--c-California) 100%
+  );
 }
+
+.dark-theme {
+}
+
+// /* Color Theme Swatches in Hex */
+// .FlatPinky-1-hex { color: #285C76; }
+// .FlatPinky-2-hex { color: #F05F6F; }
+// .FlatPinky-3-hex { color: #461835; }
+// .FlatPinky-4-hex { color: #FDF2FA; }
+// .FlatPinky-5-hex { color: #F3B9BF; }
+
+// /* Color Theme Swatches in RGBA */
+// .FlatPinky-1-rgba { color: rgba(40, 91, 117, 1); }
+// .FlatPinky-2-rgba { color: rgba(239, 94, 110, 1); }
+// .FlatPinky-3-rgba { color: rgba(70, 23, 52, 1); }
+// .FlatPinky-4-rgba { color: rgba(253, 242, 249, 1); }
+// .FlatPinky-5-rgba { color: rgba(242, 184, 191, 1); }
+
+// /* Color Theme Swatches in HSLA */
+// .FlatPinky-1-hsla { color: hsla(200, 49, 30, 1); }
+// .FlatPinky-2-hsla { color: hsla(353, 82, 65, 1); }
+// .FlatPinky-3-hsla { color: hsla(322, 48, 18, 1); }
+// .FlatPinky-4-hsla { color: hsla(316, 73, 97, 1); }
+// .FlatPinky-5-hsla { color: hsla(353, 70, 83, 1); }
 
 // Delaware
 // Florida

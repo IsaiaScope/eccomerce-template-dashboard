@@ -6,7 +6,11 @@ import { formInputDefault } from './form-input-model';
   selector: 'app-form-input',
   template: `
     <ng-container *ngIf="setUp.formGroupName && setUp.formControlName">
-      <div [formGroup]="form">
+      <div [formGroup]="form" class="flex-center">
+        <app-svg-icon
+          *ngIf="setUp.frontIcon"
+          [iconName]="setUp.frontIcon"
+        ></app-svg-icon>
         <input
           [type]="setUp.type || 'text'"
           [placeholder]="setUp.placeholder"

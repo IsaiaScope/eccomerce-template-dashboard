@@ -1,13 +1,16 @@
-<div class="grid-center">
-  <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
-    <ng-container *ngFor="let inputData of structureLoginForm">
-      <app-form-input [setUp]="inputData"></app-form-input>
-    </ng-container>
-    <app-form-checkbox></app-form-checkbox>
-    <p>forget password ?</p>
-    <app-form-btn [setUp]="{ label: 'login' }"></app-form-btn>
-    <!-- [disable]="!loginForm.valid" -->
-  </form>
-  <br />
-  <button (click)="addUser()">Register</button>
+<div class="auth-container grid-center">
+  <div class="grid-center" class="auth-block">
+    <h3>Login</h3>
+    <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+      <div *ngFor="let inputData of structureLoginForm">
+        <app-form-input [setUp]="inputData"></app-form-input>
+      </div>
+      <app-form-checkbox></app-form-checkbox>
+      <p>forget password ?</p>
+      <app-form-btn [setUp]="{ label: 'login' }"></app-form-btn>
+      <!-- [disable]="!loginForm.valid" -->
+    </form>
+    <br />
+    <button (click)="addUser()">Register</button>
+  </div>
 </div>

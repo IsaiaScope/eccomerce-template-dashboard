@@ -13,10 +13,12 @@ export const structureLoginForm: FormInput[] = [
     placeholder: 'email',
     formGroupName: 'data',
     formControlName: 'email',
+    frontIcon: 'email',
   },
   {
     placeholder: 'password',
     formGroupName: 'data',
     formControlName: 'password',
+    frontIcon: 'password',
   },
 ];

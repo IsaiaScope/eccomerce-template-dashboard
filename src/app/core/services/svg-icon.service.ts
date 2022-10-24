@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { C } from 'src/app/shared/constants/config';
+
+const svgIconsList = {
+  path: '../../../assets/svgs/icons/',
+  iconsName: [
+    'cabin',
+    'search',
+    'shopping-cart',
+    'profile',
+    'email',
+    'password',
+  ],
+};
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +24,7 @@ export class SvgIconService {
   ) {}
 
   register() {
-    const { iconsName: icons, path } = C.svgIconsList;
+    const { iconsName: icons, path } = svgIconsList;
 
     icons.map((iconName) => {
       this.iconRegistry.addSvgIcon(

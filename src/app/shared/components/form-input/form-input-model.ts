@@ -3,6 +3,8 @@ export interface FormInput {
   placeholder: string;
   formControlName: string;
   formGroupName: string;
+  frontIcon?: string;
+  insideIcon?: string;
 }
 
 export const formInputDefault: FormInput = {
@@ -10,4 +12,6 @@ export const formInputDefault: FormInput = {
   placeholder: '',
   formControlName: '',
   formGroupName: '',
+  frontIcon: '',
+  insideIcon: '',
 };
