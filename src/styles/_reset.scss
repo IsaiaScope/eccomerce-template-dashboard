@@ -36,7 +36,11 @@ textarea {
   white-space: revert;
 }
 
+input,
+button {
+  border: none;
+}
+
 input {
   outline: none;
-  border: none;
 }

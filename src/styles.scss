@@ -11,11 +11,7 @@
 @use "./styles/variables/custom";
 @use "./styles/variables/font";
 
-html,
-body {
-  height: 100%;
-}
 body {
   // margin: 0; [] TODO check if necessary because reset already set it
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: cursive, "Helvetica Neue", sans-serif;
 }

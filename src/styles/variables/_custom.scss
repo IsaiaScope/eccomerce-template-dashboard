@@ -1,5 +1,8 @@
 @use "../abstracts" as *;
 
 :root {
-  --icon-size-alpha: 50px
+  --b-radius-alpha: 15px;
+  --p-alpha: 0.4em 0.8em;
+  --box-shadow-alpha: 3px 3px 10px 1px rgba(0, 0, 0, 0.4);
+  // --icon-size-alpha: 50px
 }

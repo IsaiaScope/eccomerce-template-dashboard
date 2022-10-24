@@ -10,11 +10,17 @@
   --c-Colorado: rgb(136, 191, 150);
   --c-Connecticut: rgb(242, 242, 242);
 
-  --bg-gradient: linear-gradient(
+  --c-Delaware: linear-gradient(
     90deg,
     var(--c-Arizona) 0%,
     var(--c-Arkansas) 35%,
     var(--c-California) 100%
+  );
+
+  --c-Florida: radial-gradient(
+    circle,
+    var(--c-California) 0%,
+    var(--c-Arkansas) 100%
   );
 }
 
@@ -42,8 +48,6 @@
 // .FlatPinky-4-hsla { color: hsla(316, 73, 97, 1); }
 // .FlatPinky-5-hsla { color: hsla(353, 70, 83, 1); }
 
-// Delaware
-// Florida
 // Georgia
 // Hawaii
 // Idaho

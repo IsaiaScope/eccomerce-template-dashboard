@@ -1,15 +1,15 @@
 @use "../abstracts" as *;
 
 :root {
-  --t-size-alpha: 1em;
-  --t-scale-ratio-alpha: 1.25;
+  --fs-alpha: 14px; // → 0.875rem
+  // --t-scale-ratio-alpha: 1.25;
 
-  --t-xs-alpha: var(--t-size-alpha);
-  --t-sm-alpha: calc(var(--t-xs-alpha) * var(--t-scale-ratio-alpha));
-  --t-md-alpha: calc(var(--t-sm-alpha) * var(--t-scale-ratio-alpha));
-  --t-lg-alpha: calc(var(--t-md-alpha) * var(--t-scale-ratio-alpha));
-  --t-xl-alpha: calc(var(--t-lg-alpha) * var(--t-scale-ratio-alpha));
-  --t-xxl-alpha: calc(var(--t-xl-alpha) * var(--t-scale-ratio-alpha));
+  // --t-xs-alpha: var(--t-size-alpha);
+  // --t-sm-alpha: calc(var(--t-xs-alpha) * var(--t-scale-ratio-alpha));
+  // --t-md-alpha: calc(var(--t-sm-alpha) * var(--t-scale-ratio-alpha));
+  // --t-lg-alpha: calc(var(--t-md-alpha) * var(--t-scale-ratio-alpha));
+  // --t-xl-alpha: calc(var(--t-lg-alpha) * var(--t-scale-ratio-alpha));
+  // --t-xxl-alpha: calc(var(--t-xl-alpha) * var(--t-scale-ratio-alpha));
 
   @include max-width("sm") {
   }
@@ -29,6 +29,15 @@
     --t-size-alpha: 1em;
   }
 }
+
+// 14px
+// 15px → 0.9375rem
+// 16px → 1rem
+// 17px → 1.0625rem
+// 18px → 1.125rem
+// 19px → 1.1875rem
+// 20px → 1.25rem
+// 21px → 1.3125rem
 
 // $scale-naming: (1, 2, 3, 4, 5, 6);
 // $custom: (
