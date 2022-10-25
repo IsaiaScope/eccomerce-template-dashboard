@@ -2,6 +2,11 @@ import { Validators } from '@angular/forms';
 import { FormInput } from 'src/app/shared/components/form-input/form-input-model';
 import { REGEXP } from 'src/app/shared/constants/regex';
 
+export interface LoginForm {
+  email: string;
+  password: string;
+}
+
 export const configLoginForm = {
   email: ['', [Validators.required, Validators.email]],
   password: ['', [Validators.required, Validators.pattern(REGEXP.password)]],

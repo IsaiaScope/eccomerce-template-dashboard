@@ -1,93 +1,101 @@
-// import { Injectable } from '@angular/core'
-// import { Actions, createEffect, ofType } from '@ngrx/effects'
-// import { map, mergeMap, tap } from 'rxjs/operators'
-// import { AuthService } from '../../service/auth.service'
-// import { AuthModel, SignInModelResponse } from '../../model/auth.model'
-// import { environment } from '../../../../environments/environment'
-// import { Router } from '@angular/router'
-// import * as AuthAction from '../action/auth.actions'
-// import { AppState } from '../app.states'
-// import { Store } from '@ngrx/store'
-// import { IdbService } from '../../service/idb.service'
+import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { State, Store } from '@ngrx/store';
+import { throwError } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/features/login/services/auth.service';
+import { ErrorService } from '../../services/error/error.service';
+import * as authAction from './auth.action';
 
-// @Injectable()
-// export class AuthEffects {
-//   signInAction$ = createEffect(() =>
-//     this.actions$.pipe(
-//       ofType(AuthAction.signIn),
-//       map((next) => next.data),
-//       mergeMap((payload: AuthModel) =>
-//         this.authService.signIn(payload).pipe(
-//           map((response: SignInModelResponse) => {
-//             if (response.isOk) {
-//               environment.slToken = response.response.slToken
-//               environment.instanceId = AuthService.parseJWT(
-//                 response.response.slToken,
-//               ).allowedInstance
-//               return {
-//                 type: '[Auth] signIn Success',
-//                 payload: response.response,
-//               }
-//             }
-//           }),
-//         ),
-//       ),
-//     ),
-//   )
+@Injectable()
+export class AuthEffects {
+  signInAction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authAction.signIn),
+      mergeMap((loginFormValue) =>
+        this.authSrv.login(loginFormValue).pipe(
+          tap(console.log),
+          map((accessToken) => authAction.signInSuccess(accessToken))
+        )
+      )
+    )
+  );
 
-//   signOnSuccess$ = createEffect(
-//     () =>
-//       this.actions$.pipe(
-//         ofType(AuthAction.signInSuccess),
-//         tap(() => {
-//           this.router.navigate(['/pincode']).then()
-//         }),
-//       ),
-//     { dispatch: false },
-//   )
+  signOnSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(authAction.signInSuccess),
+        tap(() => {
+          this.router.navigate(['/home']).then();
+        })
+      ),
+    { dispatch: false }
+  );
 
-//   resetPincode = createEffect(() =>
-//     this.actions$.pipe(
-//       ofType(AuthAction.resetPincodeLocalStorage),
-//       tap(() => {
-//         localStorage.removeItem(environment.pincodeName)
-//       }),
-//       map(() => {
-//         this.router.navigate(['/pincode'])
-//         return AuthAction.resetPincodeState()
-//       }),
-//     ),
-//   )
+  // refreshToken$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(authAction.refreshToken),
+  //     mergeMap(() =>
+  //       this.authSrv.refresh().pipe(
+  //         tap(console.log),
+  //         map((accessToken) => authAction.refreshTokenSuccess(accessToken))
+  //       )
+  //     )
+  //   )
+  // );
 
-//   resetPincodeState = createEffect(() =>
-//     this.actions$.pipe(
-//       ofType(AuthAction.resetPincodeState),
-//       tap(() => {
-//         this.router.navigate(['/pincode'])
-//       }),
-//       map(() => AuthAction.navigateToPincode()),
-//     ),
-//   )
+  // refreshTokenSuccess$ = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(authAction.refreshTokenSuccess),
+  //       tap(() => console.log(`token Refreshed`))
+  //     ),
+  //   { dispatch: false }
+  // );
 
-//   resetUser = createEffect(
-//     () =>
-//       this.actions$.pipe(
-//         ofType(AuthAction.resetUser),
-//         map(() => this.idbService.deleteDB('shaka_offline_db')),
-//         map(() => this.idbService.deleteDB('dds-db')),
-//         map(() => localStorage.removeItem(environment.pincodeName)),
-//         tap(() => {
-//           window.location.assign('/')
-//         }),
-//       ),
-//     { dispatch: false },
-//   )
+  //   resetPincode = createEffect(() =>
+  //     this.actions$.pipe(
+  //       ofType(AuthAction.resetPincodeLocalStorage),
+  //       tap(() => {
+  //         localStorage.removeItem(environment.pincodeName)
+  //       }),
+  //       map(() => {
+  //         this.router.navigate(['/pincode'])
+  //         return AuthAction.resetPincodeState()
+  //       }),
+  //     ),
+  //   )
 
-//   constructor(
-//     private actions$: Actions,
-//     private store$: Store<AppState>,
-//     private authService: AuthService,
-//     private idbService: IdbService,
-//     private router: Router,
-//   ) {}
-// }
+  //   resetPincodeState = createEffect(() =>
+  //     this.actions$.pipe(
+  //       ofType(AuthAction.resetPincodeState),
+  //       tap(() => {
+  //         this.router.navigate(['/pincode'])
+  //       }),
+  //       map(() => AuthAction.navigateToPincode()),
+  //     ),
+  //   )
+
+  //   resetUser = createEffect(
+  //     () =>
+  //       this.actions$.pipe(
+  //         ofType(AuthAction.resetUser),
+  //         map(() => this.idbService.deleteDB('shaka_offline_db')),
+  //         map(() => this.idbService.deleteDB('dds-db')),
+  //         map(() => localStorage.removeItem(environment.pincodeName)),
+  //         tap(() => {
+  //           window.location.assign('/')
+  //         }),
+  //       ),
+  //     { dispatch: false },
+  //   )
+
+  constructor(
+    private actions$: Actions,
+    private router: Router,
+    private errSrv: ErrorService,
+    private authSrv: AuthService // private authService: AuthService, // private idbService: IdbService,
+  ) {}
+}
