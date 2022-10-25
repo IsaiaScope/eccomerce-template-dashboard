@@ -4,7 +4,8 @@ import { AuthService } from '../../../features/login/services/auth.service';
 
 export interface State {
   isAuth: boolean;
-  loading: boolean;
+  loggingIn: boolean;
+  isRefreshing: boolean;
   accessToken: string;
   userInfo: {
     userId: string;
@@ -15,14 +16,15 @@ export interface State {
 
 export const initialState: State = {
   isAuth: false,
-  loading: false,
+  loggingIn: false,
+  isRefreshing: false,
   accessToken: '',
   userInfo: null,
 };
 
 const authReducer = createReducer(
   initialState,
-  on(authAction.signIn, (state: State) => ({ ...state, loading: true })),
+  on(authAction.signIn, (state: State) => ({ ...state, loggingIn: true })),
   on(authAction.signInSuccess, (state: State, { accessToken }) => ({
     ...state,
     isAuth: true,
@@ -30,9 +32,14 @@ const authReducer = createReducer(
     accessToken,
     userInfo: AuthService.parseJwt(accessToken),
   })),
-  on(authAction.refreshToken, (state: State, { accessToken }) => ({
+  on(authAction.refreshToken, (state: State) => ({
+    ...state,
+    isRefreshing: true,
+  })),
+  on(authAction.refreshTokenSuccess, (state: State, { accessToken }) => ({
     ...state,
     isAuth: true,
+    isRefreshing: false,
     accessToken,
     userInfo: AuthService.parseJwt(accessToken),
   }))

@@ -7,16 +7,29 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { combineLatest, Observable, of, throwError } from 'rxjs';
+import {
+  combineLatest,
+  EMPTY,
+  interval,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import {
   catchError,
   concatMap,
+  debounce,
   delay,
+  delayWhen,
+  distinctUntilChanged,
+  distinctUntilKeyChanged,
   filter,
   map,
   mergeMap,
   retry,
   retryWhen,
+  share,
+  shareReplay,
   switchMap,
   take,
   tap,
@@ -56,8 +69,6 @@ export class ApiInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const { accessToken } = this.authData;
-
     if (req.url.indexOf('login') > -1 || req.url.indexOf('refresh') > -1) {
       return next.handle(req).pipe(
         catchError((err: HttpErrorResponse) => {
@@ -66,7 +77,7 @@ export class ApiInterceptorService implements HttpInterceptor {
       );
     }
 
-    req = this.addHeaders(req, accessToken);
+    req = this.addHeaders(req);
 
     return next.handle(req).pipe(
       filter((e) => e.type !== 0),
@@ -94,30 +105,20 @@ export class ApiInterceptorService implements HttpInterceptor {
     }
     if (err instanceof HttpErrorResponse) {
       console.log(`server side error Code: ${err.status}, Msg: ${err.message}`);
-
-      return this.refreshHandler(req, next);
+      if (err.status === ERROR.unauthorized) this.errSrv.routeToLogin();
+      if (err.status === ERROR.forbidden) return this.refreshHandler(req, next);
     }
     return throwError(() => new Error(`Handle Error`));
   }
 
   refreshHandler(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    return this.authSrv.refresh().pipe(
-      map((accessToken: any) => {
-        console.log(accessToken);
-        this.store.dispatch(refreshToken(accessToken));
-        return accessToken;
-      }),
-      switchMap(({ accessToken }: any) =>
-        next.handle(this.addHeaders(req, accessToken))
-      ),
-      catchError((err: HttpErrorResponse | ErrorEvent) => {
-        console.dir(err);
-        return this.handleErr(req, next, err);
-      })
-    );
+    !this.authData.isRefreshing && this.store.dispatch(refreshToken());
+
+    return EMPTY;
   }
 
-  addHeaders(req: HttpRequest<any>, accessToken: string) {
+  addHeaders(req: HttpRequest<any>) {
+    const { accessToken } = this.authData;
     const _headers: {
       [string: string]: string;
     } = {};

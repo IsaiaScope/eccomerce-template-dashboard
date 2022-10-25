@@ -34,26 +34,26 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  // refreshToken$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(authAction.refreshToken),
-  //     mergeMap(() =>
-  //       this.authSrv.refresh().pipe(
-  //         tap(console.log),
-  //         map((accessToken) => authAction.refreshTokenSuccess(accessToken))
-  //       )
-  //     )
-  //   )
-  // );
+  refreshToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authAction.refreshToken),
+      mergeMap(() =>
+        this.authSrv.refresh().pipe(
+          tap(console.log),
+          map((accessToken) => authAction.refreshTokenSuccess(accessToken))
+        )
+      )
+    )
+  );
 
-  // refreshTokenSuccess$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(authAction.refreshTokenSuccess),
-  //       tap(() => console.log(`token Refreshed`))
-  //     ),
-  //   { dispatch: false }
-  // );
+  refreshTokenSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(authAction.refreshTokenSuccess),
+        tap(() => console.log(`token Refreshed`))
+      ),
+    { dispatch: false }
+  );
 
   //   resetPincode = createEffect(() =>
   //     this.actions$.pipe(

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { catchError, map, share, tap, throwError } from 'rxjs';
 import { refreshToken } from 'src/app/core/store/auth/auth.action';
 import { environment as env } from 'src/environments/environment';
 
@@ -47,8 +47,10 @@ export class AuthService {
   }
 
   refresh() {
-    return this.http.get(`${env.dashboardApi}/refresh`, {
-      withCredentials: true,
-    });
+    return this.http
+      .get(`${env.dashboardApi}/refresh`, {
+        withCredentials: true,
+      })
+      .pipe(share());
   }
 }

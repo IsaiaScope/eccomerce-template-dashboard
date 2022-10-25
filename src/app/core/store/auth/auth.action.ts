@@ -10,8 +10,10 @@ export const signInSuccess = createAction(
   props<{ accessToken: string }>()
 );
 
-export const refreshToken = createAction(
-  '[Auth] refreshToken',
+export const refreshToken = createAction('[Auth] refreshToken');
+
+export const refreshTokenSuccess = createAction(
+  '[Auth] signIn Success',
   props<{ accessToken: string }>()
 );
 
