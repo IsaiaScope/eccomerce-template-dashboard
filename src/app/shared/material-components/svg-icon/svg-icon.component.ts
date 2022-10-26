@@ -2,17 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-svg-icon',
-  template: ` <mat-icon [svgIcon]="iconName"></mat-icon> `,
-  styles: [
-    `
-      :host {
-        display: grid;
-      }
-    `,
-  ],
+  template: `<svg-icon
+    class="grid"
+    [src]="path + iconName + '.svg'"
+  ></svg-icon>`,
+  styles: [``],
 })
 export class SvgIconComponent implements OnInit {
   @Input() iconName = '';
+  path = '../../../assets/svgs/icons/';
   constructor() {}
 
   ngOnInit(): void {}

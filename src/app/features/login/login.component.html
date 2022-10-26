@@ -2,11 +2,13 @@
   <div class="grid-center" class="auth-block">
     <h3>Login</h3>
     <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
-      <div *ngFor="let inputData of structureLoginForm">
+      <div *ngFor="let inputData of structureLoginForm.inputs">
         <app-form-input [setUp]="inputData"></app-form-input>
       </div>
-      <app-form-checkbox></app-form-checkbox>
-      <p>forget password ?</p>
+      <div *ngFor="let checkBoxesData of structureLoginForm.checkBoxes">
+        <app-form-checkbox [setUp]="checkBoxesData"></app-form-checkbox>
+      </div>
+      <a>forget password ?</a>
       <app-form-btn [setUp]="{ label: 'login' }"></app-form-btn>
       <!-- [disable]="!loginForm.valid" -->
     </form>

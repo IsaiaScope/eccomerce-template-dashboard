@@ -7,6 +7,17 @@ const CONSTANTS = {
     xl: 1200,
     xxl: 1400,
   },
+  svgIconsList: {
+    path: '../../../assets/svgs/icons/',
+    iconsName: [
+      'cabin',
+      'search',
+      'shopping-cart',
+      'profile',
+      'email',
+      'password',
+    ],
+  },
 };
 
 export const C = Object.freeze(CONSTANTS);

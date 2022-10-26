@@ -4,11 +4,22 @@ import { FormInputComponent } from './form-input/form-input.component';
 import { AllFormsRuleModule } from '../modules/all-forms-rule.module';
 import { FormBtnComponent } from './form-btn/form-btn.component';
 import { FormCheckboxComponent } from './form-checkbox/form-checkbox.component';
-import { MaterialComponentsModule } from '../material-components/material-components.module';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from '../material-components/svg-icon/svg-icon.component';
 
 @NgModule({
-  declarations: [FormInputComponent, FormBtnComponent, FormCheckboxComponent],
-  imports: [CommonModule, AllFormsRuleModule, MaterialComponentsModule],
-  exports: [FormInputComponent, FormBtnComponent, FormCheckboxComponent],
+  declarations: [
+    FormInputComponent,
+    FormBtnComponent,
+    FormCheckboxComponent,
+    SvgIconComponent,
+  ],
+  imports: [CommonModule, AllFormsRuleModule, AngularSvgIconModule.forRoot()],
+  exports: [
+    FormInputComponent,
+    FormBtnComponent,
+    FormCheckboxComponent,
+    SvgIconComponent,
+  ],
 })
 export class ComponentsModule {}

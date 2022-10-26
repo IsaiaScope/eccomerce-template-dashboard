@@ -7,7 +7,7 @@ import {
   structureLoginForm,
 } from './models/config';
 import { Store } from '@ngrx/store';
-import { refreshToken, signIn } from 'src/app/core/store/auth/auth.action';
+import { signIn } from 'src/app/core/store/auth/auth.action';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +27,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
   loginSubmit() {
-    const { email, password } = this.loginForm.value.data as LoginForm;
+    console.log(this.loginForm.value.data);
+    const { email, password, persistent } = this.loginForm.value
+      .data as LoginForm;
     this.store.dispatch(signIn({ email, password }));
   }
   addUser() {
