@@ -15,7 +15,6 @@ import { formBtnDefault } from './form-btn-model';
         border-radius: var(--b-radius-alpha);
         padding: var(--p-alpha);
         box-shadow: var(--box-shadow-alpha);
-        font-size: var(--fs-alpha);
         background: var(--c-Florida);
       }
     `,

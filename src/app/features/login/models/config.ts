@@ -25,13 +25,17 @@ export const structureLoginForm: {
       placeholder: 'email',
       formGroupName: 'data',
       formControlName: 'email',
-      frontIcon: 'email',
+      frontIcon: {
+        iconName: 'email',
+      },
     },
     {
       placeholder: 'password',
       formGroupName: 'data',
       formControlName: 'password',
-      frontIcon: 'password',
+      frontIcon: {
+        iconName: 'password',
+      },
     },
   ],
   checkBoxes: [

@@ -9,7 +9,7 @@ import { formInputDefault } from './form-input-model';
       <div [formGroup]="form" class="flex-center">
         <app-svg-icon
           *ngIf="setUp.frontIcon"
-          [iconName]="setUp.frontIcon"
+          [setUp]="setUp.frontIcon"
         ></app-svg-icon>
         <input
           [type]="setUp.type || 'text'"

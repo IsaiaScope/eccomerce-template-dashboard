@@ -1,10 +1,12 @@
+import { SvgIcon } from '../svg/svg-icon/svg-icon-model';
+
 export interface FormInput {
   type?: string;
   placeholder: string;
   formControlName: string;
   formGroupName: string;
-  frontIcon?: string;
-  insideIcon?: string;
+  frontIcon?: SvgIcon;
+  insideIcon?: SvgIcon;
 }
 
 export const formInputDefault: FormInput = {
@@ -12,6 +14,4 @@ export const formInputDefault: FormInput = {
   placeholder: '',
   formControlName: '',
   formGroupName: '',
-  frontIcon: '',
-  insideIcon: '',
 };
