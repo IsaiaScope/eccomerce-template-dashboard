@@ -30,7 +30,7 @@ const authReducer = createReducer(
   on(authAction.loginSuccess, (state: State, { accessToken }) => ({
     ...state,
     isAuth: true,
-    loading: false,
+    isLoggingIn: false,
     accessToken,
     userInfo: AuthService.parseJwt(accessToken),
   })),
@@ -46,13 +46,19 @@ const authReducer = createReducer(
     accessToken,
     userInfo: AuthService.parseJwt(accessToken),
   })),
-  on(authAction.logout, () => ({
-    ...initialState,
+  on(authAction.logout, (state: State) => ({
+    ...state,
     isLoggingOut: true,
   })),
-  on(authAction.logoutSuccess, (state: State) => ({
+  on(authAction.logoutSuccess, () => ({
+    ...initialState,
+  })),
+  on(authAction.authError, (state: State) => ({
     ...state,
+    isRefreshing: false,
+    isLoggingIn: false,
     isLoggingOut: false,
+    isAuth: false,
   }))
 );
 

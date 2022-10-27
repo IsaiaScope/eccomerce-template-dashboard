@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { metaReducers, reducers } from '.';
+import { reducers } from '.';
 import { EffectsModule } from '@ngrx/effects';
 
 import { environment as env } from 'src/environments/environment';
@@ -13,9 +13,7 @@ import { AuthEffects } from './auth/auth.effects';
   declarations: [],
   imports: [
     CommonModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: env.production }),
   ],

@@ -8,18 +8,12 @@
       <div *ngFor="let checkBoxesData of structureLoginForm.checkBoxes">
         <app-form-checkbox [setUp]="checkBoxesData"></app-form-checkbox>
       </div>
-      <ng-container *ngIf="(isLoggingIn$ | async) !== null as isLoggingIn">
-        <app-form-btn
-          [setUp]="{ label: 'login' }"
-          [disable]="!isLoggingIn"
-        ></app-form-btn>
-      </ng-container>
+      <app-form-btn
+        [setUp]="{ label: 'login' }"
+        [disable]="(isLoggingIn$ | async)!"
+      ></app-form-btn>
     </form>
     <br />
     <button (click)="addUser()">Register</button>
-    <br />
-    {{ !(isLoggingIn$ | async) }}
-    <br />
-    {{ (isLoggingIn$ | async) !== null }}
   </div>
 </div>

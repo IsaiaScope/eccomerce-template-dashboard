@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { refreshToken } from './core/store/auth/auth.action';
-import { ROUTES } from './shared/constants/routes-config';
+import { ROUTES } from './core/services/routing/routes-config';
 
 @Component({
   selector: 'app-root',

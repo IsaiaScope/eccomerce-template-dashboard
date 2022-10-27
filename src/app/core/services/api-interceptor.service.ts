@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   catchError,
   exhaustMap,
@@ -20,7 +20,8 @@ import { Store } from '@ngrx/store';
 import { selectAuthState } from '../store';
 import { ErrorService } from './error/error.service';
 import { refreshToken } from '../store/auth/auth.action';
-import { ERROR } from './error/error-config';
+import { ERROR, ERROR_TYPES } from './error/error-config';
+import { ROUTES } from 'src/app/core/services/routing/routes-config';
 
 @Injectable({
   providedIn: 'root',
@@ -43,15 +44,18 @@ export class ApiInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (req.url.indexOf('assets/svgs/icons') > -1) {
+      return next.handle(req);
+    }
+
     if (
-      req.url.indexOf('login') > -1 ||
-      req.url.indexOf('refresh') > -1 ||
-      req.url.indexOf('svgs/icons') > -1 ||
-      req.url.indexOf('logout') > -1
+      req.url.indexOf(ROUTES.endpoints.login) > -1 ||
+      req.url.indexOf(ROUTES.endpoints.refresh) > -1 ||
+      req.url.indexOf(ROUTES.endpoints.logout) > -1
     ) {
       return next.handle(req).pipe(
         catchError((err: HttpErrorResponse | ErrorEvent) => {
-          return this.handleErr(err);
+          return this.errSrv.handleErr(err, ERROR_TYPES.authApi);
         })
       );
     }
@@ -60,7 +64,7 @@ export class ApiInterceptorService implements HttpInterceptor {
       map((accessToken) => this.addHeaders(req, accessToken)),
       take(1),
       exhaustMap((req) => {
-        console.log(`vecchio stream`);
+        // console.log(`old stream`);
         return next.handle(req);
       }),
       catchError((err: HttpErrorResponse | ErrorEvent) => {
@@ -72,13 +76,13 @@ export class ApiInterceptorService implements HttpInterceptor {
             switchMap(() => {
               return this.token$.pipe(
                 switchMap((accessToken) => {
-                  console.log(`last call`);
+                  // console.log(`last call`);
                   return next.handle(this.addHeaders(req, accessToken));
                 })
               );
             })
           );
-        return this.handleErr(err);
+        return this.errSrv.handleErr(err, ERROR_TYPES.generalApi);
       })
     );
   }
@@ -92,9 +96,5 @@ export class ApiInterceptorService implements HttpInterceptor {
       setHeaders: _headers,
       withCredentials: true,
     });
-  }
-
-  handleErr(err: HttpErrorResponse | ErrorEvent) {
-    return this.errSrv.handleApiErr(err);
   }
 }

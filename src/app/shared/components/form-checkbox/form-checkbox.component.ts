@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { FormCheckBoxDefault } from './form-checkbox-model';
 
@@ -9,6 +14,7 @@ import { FormCheckBoxDefault } from './form-checkbox-model';
     <label *ngIf="setUp.label">{{ setUp.label }}</label>
   </div>`,
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormCheckboxComponent implements OnInit {
   @Input() setUp = FormCheckBoxDefault;

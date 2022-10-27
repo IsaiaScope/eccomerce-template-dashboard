@@ -1,27 +1,39 @@
-import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { of, throwError } from 'rxjs';
-import { ROUTES } from 'src/app/shared/constants/routes-config';
-import { refreshToken, logout } from '../../store/auth/auth.action';
-import { ERROR } from './error-config';
+import { throwError } from 'rxjs';
+import { authError, logout } from '../../store/auth/auth.action';
+import { RoutingService } from '../routing/routing.service';
+import { ERROR, ERROR_TYPES } from './error-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorService {
-  constructor(private router: Router, private store: Store) {}
+  constructor(private store: Store, private routeSRv: RoutingService) {}
 
-  handleApiErr(err: HttpErrorResponse | ErrorEvent) {
+  handleErr(err: HttpErrorResponse | ErrorEvent, from: string) {
     if (!(err instanceof HttpErrorResponse)) {
       console.log(`Client side error`, err);
       return throwError(() => new Error(`Client side error`));
     }
-    console.log(`Server side error`, err);
+
     switch (err.status) {
+      case ERROR.serverDown:
+        this.routeSRv.moveToLogin();
+        break;
       case ERROR.unauthorized:
         this.logout();
+        break;
+      case ERROR.forbidden:
+        this.logout();
+        break;
+    }
+
+    switch (from) {
+      case ERROR_TYPES.authApi:
+        this.store.dispatch(authError({ err }));
+        break;
     }
     return throwError(() => new Error(`Server side error`));
   }

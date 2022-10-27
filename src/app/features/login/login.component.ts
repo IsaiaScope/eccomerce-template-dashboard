@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import {
   configLoginForm,
   LoginForm,
   structureLoginForm,
-} from './models/config';
+} from './utility/login-config';
 import { Store } from '@ngrx/store';
 import { login } from 'src/app/core/store/auth/auth.action';
 import { selectAuthState } from 'src/app/core/store';
@@ -15,6 +15,7 @@ import { map } from 'rxjs';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
   structureLoginForm = structureLoginForm;
@@ -24,7 +25,6 @@ export class LoginComponent implements OnInit {
   isLoggingIn$ = this.store
     .select(selectAuthState)
     .pipe(map(({ isLoggingIn }) => isLoggingIn));
-
   constructor(
     private fb: FormBuilder,
     private authSrv: AuthService,

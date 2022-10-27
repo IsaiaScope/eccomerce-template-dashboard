@@ -10,8 +10,11 @@ export interface LoginForm {
 }
 
 export const configLoginForm = {
-  email: ['', [Validators.required, Validators.email]],
-  password: ['', [Validators.required, Validators.pattern(REGEXP.password)]],
+  email: ['iso_on_fire@hotmail.com', [Validators.required, Validators.email]],
+  password: [
+    'Test1234@',
+    [Validators.required, Validators.pattern(REGEXP.password)],
+  ],
   persistent: [false],
 };
 

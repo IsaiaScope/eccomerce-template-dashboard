@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { exhaustMap, map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/features/login/services/auth.service';
-import { ROUTES } from 'src/app/shared/constants/routes-config';
 import * as authAction from './auth.action';
+import { RoutingService } from '../../services/routing/routing.service';
 
 @Injectable()
 export class AuthEffects {
   loginAction$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authAction.login),
-      mergeMap((loginFormValue) =>
+      exhaustMap((loginFormValue) =>
         this.authSrv.login(loginFormValue).pipe(
           tap(console.log),
           map((accessToken) => authAction.loginSuccess(accessToken))
@@ -25,7 +24,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(authAction.loginSuccess),
         tap(() => {
-          this.router.navigate([ROUTES.routePath.home]).then();
+          this.routeSRv.moveToHome();
         })
       ),
     { dispatch: false }
@@ -34,7 +33,7 @@ export class AuthEffects {
   refreshToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authAction.refreshToken),
-      mergeMap(() =>
+      exhaustMap(() =>
         this.authSrv.refresh().pipe(
           tap(console.log),
           map((accessToken) => authAction.refreshTokenSuccess(accessToken))
@@ -51,7 +50,7 @@ export class AuthEffects {
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authAction.logout),
-      mergeMap(() =>
+      exhaustMap(() =>
         this.authSrv.logout().pipe(map(() => authAction.logoutSuccess()))
       )
     )
@@ -62,7 +61,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(authAction.logoutSuccess),
         tap(() => {
-          this.router.navigate([ROUTES.routePath.login]).then();
+          this.routeSRv.moveToLogin();
         })
       ),
     { dispatch: false }
@@ -70,7 +69,7 @@ export class AuthEffects {
 
   constructor(
     private actions$: Actions,
-    private router: Router,
-    private authSrv: AuthService
+    private authSrv: AuthService,
+    private routeSRv: RoutingService
   ) {}
 }

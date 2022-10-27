@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { switchMap, timer } from 'rxjs';
 import { ProductsService } from 'src/app/core/services/products.service';
@@ -9,6 +9,7 @@ import { AuthService } from '../login/services/auth.service';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
   someData$ = timer(0, 5000).pipe(switchMap(() => this.prodSrv.someData()));
@@ -18,7 +19,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {}
 
   logoutClick() {
-    console.log('here');
     this.store.dispatch(logout());
   }
 }

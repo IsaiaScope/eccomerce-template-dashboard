@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SvgIcon, svgIconDefault } from './svg-icon-model';
 
 @Component({
@@ -19,6 +19,7 @@ import { SvgIcon, svgIconDefault } from './svg-icon-model';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SvgIconComponent {
   _setUp = svgIconDefault;

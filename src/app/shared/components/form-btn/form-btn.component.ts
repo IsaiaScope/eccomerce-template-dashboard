@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { formBtnDefault } from './form-btn-model';
 
 @Component({
@@ -6,6 +11,7 @@ import { formBtnDefault } from './form-btn-model';
   template: `
     <button class="form-btn" [disabled]="disable">
       {{ setUp.label }}
+      {{ disable }}
     </button>
   `,
   styles: [
@@ -19,6 +25,7 @@ import { formBtnDefault } from './form-btn-model';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormBtnComponent implements OnInit {
   @Input() setUp = formBtnDefault;

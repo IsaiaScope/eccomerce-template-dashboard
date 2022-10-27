@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ROUTES } from 'src/app/shared/constants/routes-config';
+import { ROUTES } from 'src/app/core/services/routing/routes-config';
 import { environment as env } from 'src/environments/environment';
 
 @Injectable({
@@ -34,10 +34,7 @@ export class AuthService {
   login(loginFormValue: { email: string; password: string }) {
     return this.http.post(
       `${env.dashboardApi}/${ROUTES.endpoints.login}`,
-      {
-        email: 'iso_on_fire@hotmail.com',
-        password: 'Test1234@',
-      },
+      loginFormValue,
       { withCredentials: true }
     );
   }

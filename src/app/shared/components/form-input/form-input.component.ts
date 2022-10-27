@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { formInputDefault } from './form-input-model';
 
@@ -21,6 +26,7 @@ import { formInputDefault } from './form-input-model';
     </ng-container>
   `,
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormInputComponent implements OnInit {
   @Input() setUp = formInputDefault;
