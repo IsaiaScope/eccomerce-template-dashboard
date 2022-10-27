@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { catchError, map, share, tap, throwError } from 'rxjs';
-import { refreshToken } from 'src/app/core/store/auth/auth.action';
+import { ROUTES } from 'src/app/shared/constants/routes-config';
 import { environment as env } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   static parseJwt(token: string) {
     const base64Url = token.split('.')[1];
@@ -25,9 +23,7 @@ export class AuthService {
     );
     return JSON.parse(jsonPayload);
   }
-
-  isTokenExpired = (exp: number) => exp && Date.now() >= exp * 1000;
-
+  // TODO remove
   addUser() {
     return this.http.post(`${env.dashboardApi}/register`, {
       email: 'iso_on_fire@hotmail.com',
@@ -37,7 +33,7 @@ export class AuthService {
 
   login(loginFormValue: { email: string; password: string }) {
     return this.http.post(
-      `${env.dashboardApi}/login`,
+      `${env.dashboardApi}/${ROUTES.endpoints.login}`,
       {
         email: 'iso_on_fire@hotmail.com',
         password: 'Test1234@',
@@ -47,10 +43,14 @@ export class AuthService {
   }
 
   refresh() {
-    return this.http
-      .get(`${env.dashboardApi}/refresh`, {
-        withCredentials: true,
-      })
-      .pipe(share());
+    return this.http.get(`${env.dashboardApi}/${ROUTES.endpoints.refresh}`, {
+      withCredentials: true,
+    });
+  }
+
+  logout() {
+    return this.http.get(`${env.dashboardApi}/${ROUTES.endpoints.logout}`, {
+      withCredentials: true,
+    });
   }
 }

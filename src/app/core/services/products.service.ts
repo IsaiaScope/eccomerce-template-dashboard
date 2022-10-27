@@ -15,4 +15,7 @@ export class ProductsService {
   someData2() {
     return this.http.get(`${env.dashboardApi}/somedata2`);
   }
+  someData3() {
+    return this.http.get(`${env.dashboardApi}/somedata3`);
+  }
 }

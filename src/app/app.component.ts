@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { refreshToken } from './core/store/auth/auth.action';
+import { ROUTES } from './shared/constants/routes-config';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,6 @@ import { refreshToken } from './core/store/auth/auth.action';
 })
 export class AppComponent {
   constructor(private store: Store) {
-    // this.store.dispatch(refreshToken())
+    // this.store.dispatch(refreshToken());
   }
 }

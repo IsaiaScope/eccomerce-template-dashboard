@@ -7,7 +7,9 @@ import {
   structureLoginForm,
 } from './models/config';
 import { Store } from '@ngrx/store';
-import { signIn } from 'src/app/core/store/auth/auth.action';
+import { login } from 'src/app/core/store/auth/auth.action';
+import { selectAuthState } from 'src/app/core/store';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +21,10 @@ export class LoginComponent implements OnInit {
   loginForm = this.fb.group({
     data: this.fb.group(configLoginForm),
   });
+  isLoggingIn$ = this.store
+    .select(selectAuthState)
+    .pipe(map(({ isLoggingIn }) => isLoggingIn));
+
   constructor(
     private fb: FormBuilder,
     private authSrv: AuthService,
@@ -30,7 +36,7 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value.data);
     const { email, password, persistent } = this.loginForm.value
       .data as LoginForm;
-    this.store.dispatch(signIn({ email, password }));
+    this.store.dispatch(login({ email, password }));
   }
   addUser() {
     this.authSrv.addUser().subscribe(console.log);

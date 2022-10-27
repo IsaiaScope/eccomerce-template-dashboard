@@ -4,9 +4,10 @@ import { AuthService } from '../../../features/login/services/auth.service';
 
 export interface State {
   isAuth: boolean;
-  loggingIn: boolean;
+  isLoggingIn: boolean;
+  isLoggingOut: boolean;
   isRefreshing: boolean;
-  accessToken: string;
+  accessToken: string | null;
   userInfo: {
     userId: string;
     iat: number;
@@ -16,16 +17,17 @@ export interface State {
 
 export const initialState: State = {
   isAuth: false,
-  loggingIn: false,
+  isLoggingIn: false,
+  isLoggingOut: false,
   isRefreshing: false,
-  accessToken: '',
+  accessToken: null,
   userInfo: null,
 };
 
 const authReducer = createReducer(
   initialState,
-  on(authAction.signIn, (state: State) => ({ ...state, loggingIn: true })),
-  on(authAction.signInSuccess, (state: State, { accessToken }) => ({
+  on(authAction.login, (state: State) => ({ ...state, isLoggingIn: true })),
+  on(authAction.loginSuccess, (state: State, { accessToken }) => ({
     ...state,
     isAuth: true,
     loading: false,
@@ -35,6 +37,7 @@ const authReducer = createReducer(
   on(authAction.refreshToken, (state: State) => ({
     ...state,
     isRefreshing: true,
+    accessToken: null,
   })),
   on(authAction.refreshTokenSuccess, (state: State, { accessToken }) => ({
     ...state,
@@ -42,13 +45,15 @@ const authReducer = createReducer(
     isRefreshing: false,
     accessToken,
     userInfo: AuthService.parseJwt(accessToken),
+  })),
+  on(authAction.logout, () => ({
+    ...initialState,
+    isLoggingOut: true,
+  })),
+  on(authAction.logoutSuccess, (state: State) => ({
+    ...state,
+    isLoggingOut: false,
   }))
-  //   on(AuthAction.savePincode,
-  //     (state: State, payload) => ({...state, pincode: payload.pincode})),
-  //   on(AuthAction.signInPincode, (state: State) => ({...state, isAuth: true})),
-  //   on(AuthAction.signOut, () => ({...initialState, pincode: localStorage.getItem(environment.pincodeName)})),
-  //   on(AuthAction.resetPincodeState, state => ({...state, pincode: null})),
-  //   on(AuthAction.resetUser, state => ({...state, resetUser: true}))
 );
 
 export function reducer(state: State | undefined, action: Action) {

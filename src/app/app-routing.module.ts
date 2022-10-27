@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ROUTES } from './shared/constants/routes-config';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login',
+    redirectTo: 'home',
   },
   {
-    path: 'home',
+    path: ROUTES.routePath.home,
     loadChildren: () =>
       import('./features/home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'login',
+    path: ROUTES.routePath.login,
     loadChildren: () =>
       import('./features/login/login.module').then((m) => m.LoginModule),
   },

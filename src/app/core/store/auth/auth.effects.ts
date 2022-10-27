@@ -1,34 +1,31 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { State, Store } from '@ngrx/store';
-import { throwError } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/features/login/services/auth.service';
-import { ErrorService } from '../../services/error/error.service';
+import { ROUTES } from 'src/app/shared/constants/routes-config';
 import * as authAction from './auth.action';
 
 @Injectable()
 export class AuthEffects {
-  signInAction$ = createEffect(() =>
+  loginAction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(authAction.signIn),
+      ofType(authAction.login),
       mergeMap((loginFormValue) =>
         this.authSrv.login(loginFormValue).pipe(
           tap(console.log),
-          map((accessToken) => authAction.signInSuccess(accessToken))
+          map((accessToken) => authAction.loginSuccess(accessToken))
         )
       )
     )
   );
 
-  signOnSuccess$ = createEffect(
+  loginSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(authAction.signInSuccess),
+        ofType(authAction.loginSuccess),
         tap(() => {
-          this.router.navigate(['/home']).then();
+          this.router.navigate([ROUTES.routePath.home]).then();
         })
       ),
     { dispatch: false }
@@ -47,55 +44,33 @@ export class AuthEffects {
   );
 
   refreshTokenSuccess$ = createEffect(
+    () => this.actions$.pipe(ofType(authAction.refreshTokenSuccess)),
+    { dispatch: false }
+  );
+
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authAction.logout),
+      mergeMap(() =>
+        this.authSrv.logout().pipe(map(() => authAction.logoutSuccess()))
+      )
+    )
+  );
+
+  logoutSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(authAction.refreshTokenSuccess),
-        tap(() => console.log(`token Refreshed`))
+        ofType(authAction.logoutSuccess),
+        tap(() => {
+          this.router.navigate([ROUTES.routePath.login]).then();
+        })
       ),
     { dispatch: false }
   );
 
-  //   resetPincode = createEffect(() =>
-  //     this.actions$.pipe(
-  //       ofType(AuthAction.resetPincodeLocalStorage),
-  //       tap(() => {
-  //         localStorage.removeItem(environment.pincodeName)
-  //       }),
-  //       map(() => {
-  //         this.router.navigate(['/pincode'])
-  //         return AuthAction.resetPincodeState()
-  //       }),
-  //     ),
-  //   )
-
-  //   resetPincodeState = createEffect(() =>
-  //     this.actions$.pipe(
-  //       ofType(AuthAction.resetPincodeState),
-  //       tap(() => {
-  //         this.router.navigate(['/pincode'])
-  //       }),
-  //       map(() => AuthAction.navigateToPincode()),
-  //     ),
-  //   )
-
-  //   resetUser = createEffect(
-  //     () =>
-  //       this.actions$.pipe(
-  //         ofType(AuthAction.resetUser),
-  //         map(() => this.idbService.deleteDB('shaka_offline_db')),
-  //         map(() => this.idbService.deleteDB('dds-db')),
-  //         map(() => localStorage.removeItem(environment.pincodeName)),
-  //         tap(() => {
-  //           window.location.assign('/')
-  //         }),
-  //       ),
-  //     { dispatch: false },
-  //   )
-
   constructor(
     private actions$: Actions,
     private router: Router,
-    private errSrv: ErrorService,
-    private authSrv: AuthService // private authService: AuthService, // private idbService: IdbService,
+    private authSrv: AuthService
   ) {}
 }

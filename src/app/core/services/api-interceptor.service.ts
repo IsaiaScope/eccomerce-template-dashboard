@@ -5,237 +5,96 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse,
 } from '@angular/common/http';
-import {
-  combineLatest,
-  EMPTY,
-  interval,
-  Observable,
-  of,
-  throwError,
-} from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import {
   catchError,
-  concatMap,
-  debounce,
-  delay,
-  delayWhen,
-  distinctUntilChanged,
-  distinctUntilKeyChanged,
+  exhaustMap,
   filter,
   map,
-  mergeMap,
-  retry,
-  retryWhen,
-  share,
-  shareReplay,
   switchMap,
   take,
   tap,
 } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectAuthState } from '../store';
-import { AuthService } from 'src/app/features/login/services/auth.service';
-import { State } from '../store/auth/auth.reducer';
-import { refreshToken } from '../store/auth/auth.action';
 import { ErrorService } from './error/error.service';
-import { ofType } from '@ngrx/effects';
-import { ERROR } from './error/config-errors';
-import { NgIfContext } from '@angular/common';
-// import {environment as env} from '../../../environments/environment';
+import { refreshToken } from '../store/auth/auth.action';
+import { ERROR } from './error/error-config';
 
 @Injectable({
   providedIn: 'root',
 })
 @Injectable()
 export class ApiInterceptorService implements HttpInterceptor {
-  authData: State;
+  token$ = this.store.select(selectAuthState).pipe(
+    map(({ accessToken }) => accessToken),
+    filter((accessToken) => accessToken !== null)
+  );
 
-  constructor(
-    private store: Store,
-    private authSrv: AuthService,
-    private errSrv: ErrorService,
-    private router: Router
-  ) {
-    combineLatest([this.store.select(selectAuthState)]).subscribe((s) => {
-      const [authState] = s;
-      this.authData = authState;
-    });
-  }
+  isRefreshing$ = this.store.select(selectAuthState).pipe(
+    map(({ isRefreshing }) => isRefreshing),
+    take(1)
+  );
+
+  constructor(private store: Store, private errSrv: ErrorService) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url.indexOf('login') > -1 || req.url.indexOf('refresh') > -1) {
+    if (
+      req.url.indexOf('login') > -1 ||
+      req.url.indexOf('refresh') > -1 ||
+      req.url.indexOf('svgs/icons') > -1 ||
+      req.url.indexOf('logout') > -1
+    ) {
       return next.handle(req).pipe(
-        catchError((err: HttpErrorResponse) => {
-          return this.handleAuthErr(err);
+        catchError((err: HttpErrorResponse | ErrorEvent) => {
+          return this.handleErr(err);
         })
       );
     }
 
-    req = this.addHeaders(req);
-
-    return next.handle(req).pipe(
-      filter((e) => e.type !== 0),
-      map((event) => {
-        if (event instanceof HttpResponse) {
-          // return event.clone({ body: data });
-        }
-        console.log(`event`, event);
-        return event;
+    return this.token$.pipe(
+      map((accessToken) => this.addHeaders(req, accessToken)),
+      take(1),
+      exhaustMap((req) => {
+        console.log(`vecchio stream`);
+        return next.handle(req);
       }),
       catchError((err: HttpErrorResponse | ErrorEvent) => {
-        console.dir(err);
-        return this.handleErr(req, next, err);
+        if (err instanceof HttpErrorResponse && err.status === ERROR.forbidden)
+          return this.isRefreshing$.pipe(
+            tap((isRefreshing) => {
+              !isRefreshing && this.store.dispatch(refreshToken());
+            }),
+            switchMap(() => {
+              return this.token$.pipe(
+                switchMap((accessToken) => {
+                  console.log(`last call`);
+                  return next.handle(this.addHeaders(req, accessToken));
+                })
+              );
+            })
+          );
+        return this.handleErr(err);
       })
     );
   }
 
-  handleErr(
-    req: HttpRequest<any>,
-    next: HttpHandler,
-    err: HttpErrorResponse | ErrorEvent
-  ) {
-    if (err.error instanceof ErrorEvent) {
-      console.log(`client side error, Error: ${err.error.message}`);
-    }
-    if (err instanceof HttpErrorResponse) {
-      console.log(`server side error Code: ${err.status}, Msg: ${err.message}`);
-      if (err.status === ERROR.unauthorized) this.errSrv.routeToLogin();
-      if (err.status === ERROR.forbidden) return this.refreshHandler(req, next);
-    }
-    return throwError(() => new Error(`Handle Error`));
-  }
-
-  refreshHandler(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    !this.authData.isRefreshing && this.store.dispatch(refreshToken());
-
-    return EMPTY;
-  }
-
-  addHeaders(req: HttpRequest<any>) {
-    const { accessToken } = this.authData;
+  addHeaders(req: HttpRequest<any>, accessToken: string | null) {
     const _headers: {
       [string: string]: string;
     } = {};
-    const hasContentType = req.headers.get('content-type');
-    hasContentType && (_headers['content-type'] = 'application/json');
     accessToken && (_headers['Authorization'] = `Bearer ${accessToken}`);
-
     return req.clone({
-      // url: req.url.includes('http') ? req.url : `${env.apiUrl}/${req.url}`,
       setHeaders: _headers,
       withCredentials: true,
     });
   }
 
-  handleAuthErr(err: HttpErrorResponse | ErrorEvent) {
-    if (err.error instanceof ErrorEvent) {
-      console.log(`client side error, Error: ${err.error.message}`);
-    }
-    if (err instanceof HttpErrorResponse) {
-      console.log(`server side error Code: ${err.status}, Msg: ${err.message}`);
-      this.errSrv.handleAuthError(err.status);
-    }
-    return throwError(() => new Error(`Auth Error`));
+  handleErr(err: HttpErrorResponse | ErrorEvent) {
+    return this.errSrv.handleApiErr(err);
   }
 }
-
-//   return next.handle(request)
-//     .pipe(
-//       tap(
-//         event => {
-//           if (event instanceof HttpResponse) {
-//             // todo check if response.isOk
-//             if (event.body.hasOwnProperty('isOk') && !event.body.isOk) {
-//               this.showErrorToast(event.body.error.code, event.body.error.message);
-//             }
-//           }
-//         },
-//         httpErrorResponse => {
-//           if (httpErrorResponse instanceof HttpErrorResponse) {
-//             if (httpErrorResponse.url !== '/assets/connection-ping.json') {
-//               if (httpErrorResponse.status === 401) {
-//                 window.location.assign('/');
-//               }
-//               if (httpErrorResponse.error.code) {
-//                 this.showErrorToast(httpErrorResponse.error.code, httpErrorResponse.error.message);
-//               }
-//             }
-//           } else {
-//             this.showErrorToast('noCode', 'Generic Error');
-//           }
-//         }
-//       )
-//     );
-// }
-
-//     return next.handle(req).pipe(
-//       map((event: any) => {
-//         if (event instanceof HttpResponse) {
-//           const { body } = event;
-//           const { resultCode, errorManagement, data } = body;
-//           if (resultCode === 0) {
-//             const { errorDescription, errorCode } = errorManagement;
-//             const error = new Error(errorDescription) as any;
-//             error.code = errorCode;
-//             throw error;
-//           }
-//           return event.clone({ body: data });
-//         }
-//         return event;
-//       }),
-//       catchError((error: HttpErrorResponse | Error) => {
-//         const err = error instanceof HttpErrorResponse ? error.error : error;
-//         const isCritical = this.isCritical(err.code);
-//         this.store.dispatch(
-//           handleError({
-//             code: err.code || 'GE001',
-//             isCritical,
-//             message: err.message
-//           })
-//         );
-//         this.router.navigate(['/error']);
-//         return throwError(() => new Error(err.message));
-//       })
-//     );
-//   }
-
-//   isCritical(code: string): boolean {
-//     return CRITICAL_ERROR.includes(code);
-//   }
-// }
-
-// const localStorageTokens = localStorage.getItem('tokens');
-// var token: TokenModel;
-// if (localStorageTokens) {
-//   token = JSON.parse(localStorageTokens) as TokenModel;
-//   var isTokenExpired = this.jwtHelper.isTokenExpired(token?.access_token);
-//   if (!isTokenExpired) {
-//     return next.handle(req);
-//   } else {
-//     return this.authService.refreshToken(token).pipe(
-//       switchMap((newTokens: TokenModel) => {
-//         localStorage.setItem('tokens', JSON.stringify(newTokens));
-//         var userInfo = this.jwtHelper.decodeToken(
-//           newTokens.access_token
-//         ) as UserProfile;
-//         this.authService.userProfile.next(userInfo);
-//         const transformedReq = req.clone({
-//           headers: req.headers.set(
-//             'Authorization',
-//             `bearer ${newTokens.access_token}`
-//           ),
-//         });
-//         return next.handle(transformedReq);
-//       })
-//     );
-//   }
-// }
-// this.router.navigate(['/']);
-// return throwError(() => 'Invalid call');
-// }

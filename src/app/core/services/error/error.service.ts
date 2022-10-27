@@ -1,43 +1,32 @@
-import { HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { refreshToken } from '../../store/auth/auth.action';
+import { of, throwError } from 'rxjs';
+import { ROUTES } from 'src/app/shared/constants/routes-config';
+import { refreshToken, logout } from '../../store/auth/auth.action';
+import { ERROR } from './error-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorService {
-  errMap = {
-    401: () => this.handle401(),
-    403: () => this.handle403(),
-  };
-
-  authErrs = {
-    401: () => this.routeToLogin(),
-    403: () => this.routeToLogin(),
-  };
-
   constructor(private router: Router, private store: Store) {}
 
-  handle401() {
-    this.routeToLogin();
-  }
-
-  handle403() {
-    // this.store.dispatch(refreshToken());
-  }
-
-  handleAuthError(code: number) {
-    console.log(`CODEEEEEEEEEEEEEEE: ${code}`);
-    if (Object.keys(this.errMap).includes(code.toString())) {
-      this.authErrs[code as 401 | 403]();
+  handleApiErr(err: HttpErrorResponse | ErrorEvent) {
+    if (!(err instanceof HttpErrorResponse)) {
+      console.log(`Client side error`, err);
+      return throwError(() => new Error(`Client side error`));
     }
-    // err.status === 400 && dispatch store error value
+    console.log(`Server side error`, err);
+    switch (err.status) {
+      case ERROR.unauthorized:
+        this.logout();
+    }
+    return throwError(() => new Error(`Server side error`));
   }
 
-  routeToLogin() {
-    console.log(`navigate to login`);
-    this.router.navigate(['../', 'login']).then();
+  logout() {
+    this.store.dispatch(logout());
   }
 }
