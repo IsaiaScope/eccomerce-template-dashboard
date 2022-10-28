@@ -1,9 +1,24 @@
 import { Injectable } from '@angular/core';
 
+export enum LS_VALUES {
+  persistent = 'persistent',
+}
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
-  // TODO refresh on login page if persistent is present in local storage
   constructor() {}
+
+  static get(varName: string) {
+    const value = localStorage.getItem(varName);
+    return value && JSON.parse(value);
+  }
+
+  static set(valueName: string, value: boolean) {
+    localStorage.setItem(valueName, JSON.stringify(value));
+  }
+
+  static remove(itemName: string) {
+    localStorage.removeItem(itemName);
+  }
 }

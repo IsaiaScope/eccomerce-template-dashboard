@@ -2,8 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/features/login/services/auth.service';
-import * as authAction from './auth.action';
 import { RoutingService } from '../../services/routing/routing.service';
+import {
+  LocalStorageService as LS,
+  LS_VALUES,
+} from '../../services/utility/local-storage.service';
+import * as authAction from './auth.action';
 
 @Injectable()
 export class AuthEffects {
@@ -12,8 +16,8 @@ export class AuthEffects {
       ofType(authAction.login),
       exhaustMap((loginFormValue) =>
         this.authSrv.login(loginFormValue).pipe(
-          tap(console.log),
-          map((accessToken) => authAction.loginSuccess(accessToken))
+          map((accessToken) => authAction.loginSuccess(accessToken)),
+          tap(() => LS.set(LS_VALUES.persistent, loginFormValue.persistent))
         )
       )
     )
@@ -34,10 +38,11 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(authAction.refreshToken),
       exhaustMap(() =>
-        this.authSrv.refresh().pipe(
-          tap(console.log),
-          map((accessToken) => authAction.refreshTokenSuccess(accessToken))
-        )
+        this.authSrv
+          .refresh()
+          .pipe(
+            map((accessToken) => authAction.refreshTokenSuccess(accessToken))
+          )
       )
     )
   );
@@ -62,6 +67,7 @@ export class AuthEffects {
         ofType(authAction.logoutSuccess),
         tap(() => {
           this.routeSRv.moveToLogin();
+          LS.remove(LS_VALUES.persistent);
         })
       ),
     { dispatch: false }

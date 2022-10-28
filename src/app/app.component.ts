@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { refreshToken } from './core/store/auth/auth.action';
-import { ROUTES } from './core/services/routing/routes-config';
+import {
+  LocalStorageService as LS,
+  LS_VALUES,
+} from './core/services/utility/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +13,6 @@ import { ROUTES } from './core/services/routing/routes-config';
 })
 export class AppComponent {
   constructor(private store: Store) {
-    // this.store.dispatch(refreshToken());
+    LS.get(LS_VALUES.persistent) && this.store.dispatch(refreshToken());
   }
 }

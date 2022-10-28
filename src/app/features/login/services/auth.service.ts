@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ROUTES } from 'src/app/core/services/routing/routes-config';
 import { environment as env } from 'src/environments/environment';
 
@@ -31,18 +32,24 @@ export class AuthService {
     });
   }
 
-  login(loginFormValue: { email: string; password: string }) {
-    return this.http.post(
+  login(loginFormValue: {
+    email: string;
+    password: string;
+  }): Observable<{ accessToken: string }> {
+    return this.http.post<{ accessToken: string }>(
       `${env.dashboardApi}/${ROUTES.endpoints.login}`,
       loginFormValue,
       { withCredentials: true }
     );
   }
 
-  refresh() {
-    return this.http.get(`${env.dashboardApi}/${ROUTES.endpoints.refresh}`, {
-      withCredentials: true,
-    });
+  refresh(): Observable<{ accessToken: string }> {
+    return this.http.get<{ accessToken: string }>(
+      `${env.dashboardApi}/${ROUTES.endpoints.refresh}`,
+      {
+        withCredentials: true,
+      }
+    );
   }
 
   logout() {

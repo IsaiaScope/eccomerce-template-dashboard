@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value.data);
     const { email, password, persistent } = this.loginForm.value
       .data as LoginForm;
-    this.store.dispatch(login({ email, password }));
+    this.store.dispatch(login({ email, password, persistent }));
   }
   addUser() {
     this.authSrv.addUser().subscribe(console.log);
