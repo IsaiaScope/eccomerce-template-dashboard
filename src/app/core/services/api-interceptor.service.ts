@@ -30,7 +30,8 @@ import { ROUTES } from 'src/app/core/services/routing/routes-config';
 export class ApiInterceptorService implements HttpInterceptor {
   token$ = this.store.select(selectAuthState).pipe(
     map(({ accessToken }) => accessToken),
-    filter((accessToken) => accessToken !== null)
+    filter((accessToken) => accessToken !== null),
+    take(1)
   );
 
   isRefreshing$ = this.store.select(selectAuthState).pipe(
@@ -61,11 +62,8 @@ export class ApiInterceptorService implements HttpInterceptor {
     }
 
     return this.token$.pipe(
-      map((accessToken) => this.addHeaders(req, accessToken)),
-      take(1),
-      exhaustMap((req) => {
-        // console.log(`old stream`);
-        return next.handle(req);
+      exhaustMap((accessToken) => {
+        return next.handle(this.addHeaders(req, accessToken));
       }),
       catchError((err: HttpErrorResponse | ErrorEvent) => {
         if (err instanceof HttpErrorResponse && err.status === ERROR.forbidden)
@@ -76,7 +74,6 @@ export class ApiInterceptorService implements HttpInterceptor {
             switchMap(() => {
               return this.token$.pipe(
                 switchMap((accessToken) => {
-                  // console.log(`last call`);
                   return next.handle(this.addHeaders(req, accessToken));
                 })
               );
