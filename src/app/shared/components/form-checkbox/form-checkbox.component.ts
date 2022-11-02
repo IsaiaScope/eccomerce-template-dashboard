@@ -9,11 +9,33 @@ import { FormCheckBoxDefault } from './form-checkbox-model';
 
 @Component({
   selector: 'app-form-checkbox',
-  template: ` <div [formGroup]="form" class="flex-center">
-    <input type="checkbox" [formControlName]="setUp.formControlName" />
-    <label *ngIf="setUp.label">{{ setUp.label }}</label>
+  template: ` <div
+    [formGroup]="form"
+    class="flex-center form-checkbox-container"
+  >
+    <input
+      type="checkbox"
+      [formControlName]="setUp.formControlName"
+      class="form-checkbox-input"
+    />
+    <label *ngIf="setUp.label" class='class="form-checkbox-input"'>{{
+      setUp.label
+    }}</label>
   </div>`,
-  styles: [],
+  styles: [
+    `
+      .form-checkbox {
+        &-container {
+          padding-block: var(--p-gamma);
+        }
+        &-input {
+          margin-right: var(--m-alpha);
+        }
+        &-label {
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormCheckboxComponent implements OnInit {

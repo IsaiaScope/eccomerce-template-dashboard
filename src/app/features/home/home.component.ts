@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { switchMap, timer } from 'rxjs';
-import { ProductsService } from 'src/app/core/services/products.service';
+import { ProductsService } from 'src/app/core/services/utility/products.service';
 import { logout } from 'src/app/core/store/auth/auth.action';
 import { AuthService } from '../login/services/auth.service';
 

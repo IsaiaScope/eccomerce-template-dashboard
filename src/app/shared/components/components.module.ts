@@ -5,21 +5,21 @@ import { AllFormsRuleModule } from '../modules/all-forms-rule.module';
 import { FormBtnComponent } from './form-btn/form-btn.component';
 import { FormCheckboxComponent } from './form-checkbox/form-checkbox.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { SvgIconComponent } from './svg/svg-icon/svg-icon.component';
+import { SvgDataComponent } from './svg/svg-data.component';
 
 @NgModule({
   declarations: [
     FormInputComponent,
     FormBtnComponent,
     FormCheckboxComponent,
-    SvgIconComponent,
+    SvgDataComponent,
   ],
   imports: [CommonModule, AllFormsRuleModule, AngularSvgIconModule.forRoot()],
   exports: [
     FormInputComponent,
     FormBtnComponent,
     FormCheckboxComponent,
-    SvgIconComponent,
+    SvgDataComponent,
   ],
 })
 export class ComponentsModule {}

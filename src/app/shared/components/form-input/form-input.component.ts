@@ -10,22 +10,28 @@ import { formInputDefault } from './form-input-model';
 @Component({
   selector: 'app-form-input',
   template: `
-    <ng-container *ngIf="setUp.formGroupName && setUp.formControlName">
-      <div [formGroup]="form" class="flex-center">
-        <app-svg-icon
-          *ngIf="setUp.frontIcon"
-          [setUp]="setUp.frontIcon"
-        ></app-svg-icon>
-        <input
-          [type]="setUp.type || 'text'"
-          [placeholder]="setUp.placeholder"
-          [formControlName]="setUp.formControlName"
-        />
-      </div>
-      <!-- {{ this.form.value | json }} -->
-    </ng-container>
+    <div [formGroup]="form" class="flex-center form-input-container">
+      <app-svg-data
+        *ngIf="setUp.frontIcon"
+        [setUp]="setUp.frontIcon"
+      ></app-svg-data>
+      <input
+        [type]="setUp.type || 'text'"
+        [placeholder]="setUp.placeholder"
+        [formControlName]="setUp.formControlName"
+      />
+    </div>
+    <!-- {{ this.form.value | json }} -->
   `,
-  styles: [],
+  styles: [
+    `
+      .form-input {
+        &-container {
+          padding-block: var(--p-gamma);
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormInputComponent implements OnInit {
