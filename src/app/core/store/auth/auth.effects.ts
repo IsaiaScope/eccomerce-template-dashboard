@@ -5,9 +5,9 @@ import { AuthService } from 'src/app/features/login/services/auth.service';
 import { RoutingService } from '../../services/routing/routing.service';
 import {
   LocalStorageService as LS,
-  LS_VALUES,
-} from '../../services/utility/local-storage.service';
+} from '../../services/local-storage/local-storage.service';
 import * as authAction from './auth.action';
+import { LS_VALUES } from '../../services/local-storage/local-storage-config';
 
 @Injectable()
 export class AuthEffects {

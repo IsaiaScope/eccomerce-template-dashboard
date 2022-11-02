@@ -44,7 +44,7 @@ export class ApiInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url.indexOf('assets/svgs/icons') > -1) {
+    if (req.url.indexOf('assets/svgs') > -1) {
       return next.handle(req);
     }
 

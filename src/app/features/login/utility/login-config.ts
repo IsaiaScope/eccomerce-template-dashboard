@@ -1,11 +1,9 @@
 import { Validators } from '@angular/forms';
+import { LS_VALUES } from 'src/app/core/services/local-storage/local-storage-config';
 import { FormCheckBox } from 'src/app/shared/components/form-checkbox/form-checkbox-model';
 import { FormInput } from 'src/app/shared/components/form-input/form-input-model';
 import { REGEXP } from 'src/app/shared/constants/regex';
-import {
-  LocalStorageService as LS,
-  LS_VALUES,
-} from '../../../core/services/utility/local-storage.service';
+import { LocalStorageService as LS } from '../../../core/services/local-storage/local-storage.service';
 
 export interface LoginForm {
   email: string;
@@ -33,7 +31,8 @@ export const structureLoginForm: {
       formGroupName: 'data',
       formControlName: 'email',
       frontIcon: {
-        iconName: 'email',
+        type: 'icon',
+        name: 'email',
       },
     },
     {
@@ -41,7 +40,8 @@ export const structureLoginForm: {
       formGroupName: 'data',
       formControlName: 'password',
       frontIcon: {
-        iconName: 'password',
+        type: 'icon',
+        name: 'password',
       },
     },
   ],

@@ -1,12 +1,12 @@
-import { SvgIcon } from '../svg/svg-icon/svg-icon-model';
+import { SvgData } from '../svg/svg-model';
 
 export interface FormInput {
   type?: string;
   placeholder: string;
   formControlName: string;
   formGroupName: string;
-  frontIcon?: SvgIcon;
-  insideIcon?: SvgIcon;
+  frontIcon?: SvgData;
+  insideIcon?: SvgData;
 }
 
 export const formInputDefault: FormInput = {
