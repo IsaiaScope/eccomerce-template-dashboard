@@ -1,14 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SvgData, svgIconDefault, svgImgDefault } from './svg-model';
+import { SvgData, svgDataDefault } from './svg-model';
 
 @Component({
   selector: 'app-svg-data',
   template: `
     <!-- https://www.npmjs.com/package/angular-svg-icon doc here -->
-    <div
-      [class]="_setUp.name ? '' : 'skeleton'"
-      [ngClass]="_setUp.wrapperClasses"
-    >
+    <div [ngClass]="_setUp.wrapperClasses">
       <svg-icon
         class="grid"
         [src]="_setUp.path + _setUp.name + '.svg'"
@@ -16,31 +13,37 @@ import { SvgData, svgIconDefault, svgImgDefault } from './svg-model';
       ></svg-icon>
     </div>
   `,
-  styleUrls: [`./svg-data.scss`],
+  styles: [
+    `
+      .svg {
+        &-share-default {
+          width: var(--svg-dimension-alpha);
+          height: var(--svg-dimension-alpha);
+        }
+
+        &-icon-default {
+          fill: green;
+        }
+
+        &-wrapper-default {
+          background-color: red;
+          margin-right: var(--m-alpha);
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SvgDataComponent {
   _setUp: SvgData;
 
   @Input() set setUp(v: SvgData) {
-    switch (v.type) {
-      case 'icon':
-        this._setUp = {
-          ...svgIconDefault,
-          ...v,
-          wrapperClasses: this.combineWC(v, svgIconDefault),
-          svgClasses: this.combineSC(v, svgIconDefault),
-        };
-        break;
-      case 'img':
-        this._setUp = {
-          ...svgImgDefault,
-          ...v,
-          wrapperClasses: this.combineWC(v, svgImgDefault),
-          svgClasses: this.combineSC(v, svgImgDefault),
-        };
-        break;
-    }
+    this._setUp = {
+      ...svgDataDefault,
+      ...v,
+      wrapperClasses: this.combineWC(v, svgDataDefault),
+      svgClasses: this.combineSC(v, svgDataDefault),
+    };
   }
 
   constructor() {}
@@ -48,15 +51,14 @@ export class SvgDataComponent {
   combineSC(v: SvgData, def: SvgData) {
     return [
       ...(v.shareDimClass || def.shareDimClass!),
-      ...(v.svgClasses || []),
+      ...(v.svgClasses || def.svgClasses!),
     ];
   }
 
   combineWC(v: SvgData, def: SvgData) {
     return [
       ...(v.shareDimClass || def.shareDimClass!),
-      ...def.wrapperClasses!,
-      ...(v.wrapperClasses || []),
+      ...(v.wrapperClasses || def.wrapperClasses!),
     ];
   }
 }

@@ -2,6 +2,7 @@
 
 :root {
   --b-radius-alpha: 15px;
+  --b-radius-beta: 50%;
 
   --p-alpha: 0.4em 0.8em;
   --p-beta: 1.5em;
@@ -9,10 +10,12 @@
 
   --m-alpha: 0.5em;
 
+  --b-alpha: 2px solid var(--c-Arkansas);
+
   --box-shadow-alpha: 3px 3px 10px 1px rgba(0, 0, 0, 0.4);
 
   --svg-dimension-alpha: 1.5em;
-  --svg-dimension-beta: 10em;
+  --img-dimension-alpha: 11em;
   // --box-shadow-alpha: inset -0.6em -0.6em 1em rgba(165, 79, 29, 0.6),
   //   inset 0.4em 0.4em 0.5em rgba(245, 230, 221, 0.6),
   //   0.8em 0.8em 2em rgba(165, 79, 29, 0.6);

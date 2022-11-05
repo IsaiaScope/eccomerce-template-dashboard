@@ -6,6 +6,7 @@ import { FormBtnComponent } from './form-btn/form-btn.component';
 import { FormCheckboxComponent } from './form-checkbox/form-checkbox.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SvgDataComponent } from './svg/svg-data.component';
+import { ImgWrapperComponent } from './img-wrapper/img-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { SvgDataComponent } from './svg/svg-data.component';
     FormBtnComponent,
     FormCheckboxComponent,
     SvgDataComponent,
+    ImgWrapperComponent,
   ],
   imports: [CommonModule, AllFormsRuleModule, AngularSvgIconModule.forRoot()],
   exports: [
@@ -20,6 +22,7 @@ import { SvgDataComponent } from './svg/svg-data.component';
     FormBtnComponent,
     FormCheckboxComponent,
     SvgDataComponent,
+    ImgWrapperComponent,
   ],
 })
 export class ComponentsModule {}

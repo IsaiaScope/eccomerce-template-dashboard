@@ -31,7 +31,6 @@ export const structureLoginForm: {
       formGroupName: 'data',
       formControlName: 'email',
       frontIcon: {
-        type: 'icon',
         name: 'email',
       },
     },
@@ -40,7 +39,6 @@ export const structureLoginForm: {
       formGroupName: 'data',
       formControlName: 'password',
       frontIcon: {
-        type: 'icon',
         name: 'password',
       },
     },

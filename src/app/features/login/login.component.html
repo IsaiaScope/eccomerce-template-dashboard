@@ -1,7 +1,6 @@
 <div class="auth-container grid-center">
   <div class="grid-center" class="auth-block">
-    <h3>Login</h3>
-    <app-svg-data [setUp]="{ type: 'img', name: 'diggy' }"></app-svg-data>
+    <app-img-wrapper [setUp]="{ name: 'chopper' }"></app-img-wrapper>
     <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
       <div *ngFor="let inputData of structureLoginForm.inputs">
         <app-form-input [setUp]="inputData"></app-form-input>

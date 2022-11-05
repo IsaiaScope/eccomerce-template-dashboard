@@ -12,7 +12,7 @@ import { AuthService } from '../login/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  someData$ = timer(0, 5000).pipe(switchMap(() => this.prodSrv.someData()));
+  someData$ = this.prodSrv.someData();
   someData2$ = timer(0, 7000).pipe(switchMap(() => this.prodSrv.someData2()));
   someData3$ = timer(0, 3000).pipe(switchMap(() => this.prodSrv.someData3()));
   constructor(private store: Store, private prodSrv: ProductsService) {}

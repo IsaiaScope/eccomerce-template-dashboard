@@ -1,5 +1,4 @@
 export type SvgData = {
-  type: 'icon' | 'img';
   name: string;
   path?: string;
   // class for set dimension up for svg and wrapper div
@@ -8,18 +7,10 @@ export type SvgData = {
   svgClasses?: string[];
 };
 
-export const svgIconDefault: SvgData = {
-  type: 'icon',
+export const svgDataDefault: SvgData = {
   name: '',
   path: '../../../assets/svgs/icons/',
-  shareDimClass: ['svg-icon-default'],
+  shareDimClass: ['svg-share-default'],
   wrapperClasses: ['svg-wrapper-default'],
-};
-
-export const svgImgDefault: SvgData = {
-  type: 'img',
-  name: '',
-  path: '../../../../assets/svgs/imgs/',
-  shareDimClass: ['svg-img-default'],
-  wrapperClasses: ['svg-wrapper-default'],
+  svgClasses: ['svg-icon-default'],
 };
