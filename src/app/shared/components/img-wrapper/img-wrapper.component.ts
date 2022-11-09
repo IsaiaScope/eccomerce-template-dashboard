@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
+import { HelperService } from 'src/app/core/services/utility/helper.service';
 import { ImgWrapper, imgWrapperDefault } from './img-wrapper-config';
 
 @Component({
@@ -61,22 +62,20 @@ export class ImgWrapperComponent implements OnInit {
     this._setUp = {
       ...imgWrapperDefault,
       ...v,
-      wrapperClasses: this.setWC(v, imgWrapperDefault),
     };
-    this.wrapper.nativeElement.classList.add(...this._setUp.wrapperClasses!);
+
+    this.wrapper.nativeElement.classList.add(
+      ...this.helpSrv.setClasses(
+        imgWrapperDefault.wrapperClasses,
+        v.keepDefCss,
+        v.wrapperClasses
+      )
+    );
   }
 
-  constructor() {}
+  constructor(private helpSrv: HelperService) {}
 
   ngOnInit(): void {
     this.img$ = fromEvent(this.img.nativeElement, 'load');
-  }
-
-  setWC(v: ImgWrapper, def: ImgWrapper) {
-    if (v.keepDefCss || v.keepDefCss === undefined) {
-      return [...(v.wrapperClasses || []), ...def.wrapperClasses!];
-    } else {
-      return [...(v.wrapperClasses || [])];
-    }
   }
 }
