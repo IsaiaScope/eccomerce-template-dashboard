@@ -14,7 +14,8 @@ import { SvgData, svgDataDefault } from './svg-model';
     <!-- https://www.npmjs.com/package/angular-svg-icon doc here -->
     <div #wrapper [ngClass]="{ skeleton: !(icon$ | async) }">
       <svg-icon
-        class="grid"
+        class="grid opacity-hide"
+        [ngClass]="{ 'opacity-show': icon$ | async }"
         [src]="_setUp.path + _setUp.name + '.svg'"
         [svgClass]="_setUp.svgClasses | cssFromObj"
       ></svg-icon>

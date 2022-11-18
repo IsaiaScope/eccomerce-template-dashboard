@@ -23,6 +23,7 @@ import { formBtnDefault } from './form-btn-model';
         box-shadow: var(--box-shadow-alpha);
         background: var(--c-Florida);
         color: var(--c-Alaska);
+        cursor: pointer;
       }
     `,
   ],

@@ -4,11 +4,11 @@
   --b-radius-alpha: 1em;
   --b-radius-beta: 50%;
 
-  --p-alpha: 0.4em 0.8em;
+  --p-alpha: 0.5em 0.8em;
   --p-beta: 1.5em;
   --p-gamma: 0.5em;
 
-  --m-alpha: 0.5em;
+  --m-alpha: 0.6em;
   --m-beta: 1.8em;
 
   --b-alpha: 2px solid var(--c-Arkansas);
@@ -19,6 +19,10 @@
 
   --svg-dimension-alpha: 2em;
   --img-dimension-alpha: 11em;
+
+  --form-input-padding-alpha: calc(
+    var(--svg-dimension-alpha) + var(--m-alpha) + 0.1em
+  );
   // --box-shadow-alpha: inset -0.6em -0.6em 1em rgba(165, 79, 29, 0.6),
   //   inset 0.4em 0.4em 0.5em rgba(245, 230, 221, 0.6),
   //   0.8em 0.8em 2em rgba(165, 79, 29, 0.6);

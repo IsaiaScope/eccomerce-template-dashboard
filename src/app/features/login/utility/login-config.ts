@@ -43,6 +43,7 @@ const formStructure: {
       formGroupName: 'data',
       formControlName: 'password',
       wrapperClasses: ['p-relative', 'm-bottom-beta'],
+      inputClasses: ['form-input-padding-alpha'],
       frontIcon: {
         name: 'password',
         wrapperClasses: ['svg-wrapper-form'],

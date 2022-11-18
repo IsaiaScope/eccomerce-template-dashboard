@@ -27,7 +27,7 @@ import { formInputDefault } from './form-input-model';
         [type]="setUp.type || 'text'"
         [placeholder]="setUp.placeholder"
         [formControlName]="setUp.formControlName"
-        [ngClass]="{ 'form-input-inside-icon': setUp.insideIcon }"
+        [ngClass]="setUp.inputClasses"
       />
       <app-svg-data
         (click)="toggleVisibility(input.type)"
@@ -40,17 +40,13 @@ import { formInputDefault } from './form-input-model';
   `,
   styles: [
     `
-      .form {
-        &-input {
-          width: 100%;
-          border-radius: var(--b-radius-alpha);
-          padding: var(--p-alpha);
-          box-shadow: var(--box-shadow-beta);
-
-          &-inside-icon {
-            /* NOTE adjust in case icon standard dim ain't 2em no more */
-            padding-right: 2.6em;
-          }
+      .form-input {
+        width: 100%;
+        border-radius: var(--b-radius-alpha);
+        padding: var(--p-alpha);
+        box-shadow: var(--box-shadow-beta);
+        &-padding-alpha {
+          padding-right: var(--form-input-padding-alpha);
         }
       }
       .inside-icon {
@@ -58,6 +54,7 @@ import { formInputDefault } from './form-input-model';
           right: 0;
           position: absolute;
           margin-right: var(--m-alpha);
+          cursor: pointer;
         }
       }
     `,

@@ -28,6 +28,7 @@ import { FormCheckBoxDefault } from './form-checkbox-model';
       .form-checkbox {
         &-input {
           margin-right: var(--m-alpha);
+          cursor: pointer;
         }
       }
     `,
