@@ -16,8 +16,9 @@ import { ImgWrapper, imgWrapperDefault } from './img-wrapper-config';
     <div #wrapper [ngClass]="{ skeleton: !(img$ | async) }">
       <img
         #img
-        class="img-default"
-        [src]="_setUp.path + _setUp.name + '.svg'"
+        class="img-default opacity-hide"
+        [ngClass]="{ 'opacity-show': img$ | async }"
+        [src]="_setUp.url || _setUp.path + _setUp.name + _setUp.type"
         alt="login form image on top"
         loading="lazy"
       />
@@ -29,19 +30,23 @@ import { ImgWrapper, imgWrapperDefault } from './img-wrapper-config';
         &-default {
           height: 100%;
           object-fit: cover;
-          /* object-position: center; */
+          object-position: center;
         }
       }
       .wrapper {
         &-default {
           overflow: hidden;
         }
+        &-half-way {
+          transform: translateY(calc(-10% - var(--p-beta)));
+          margin: auto;
+        }
         &-dim-alpha {
           height: var(--img-dimension-alpha);
           width: var(--img-dimension-alpha);
         }
         &-circle {
-          background-color: var(--c-Colorado);
+          background-color: var(--c-Connecticut);
           border-radius: var(--b-radius-beta);
           border: var(--b-alpha);
           box-shadow: var(--box-shadow-alpha);

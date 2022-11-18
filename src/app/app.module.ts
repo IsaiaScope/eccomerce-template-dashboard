@@ -6,10 +6,11 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgRxModule } from './core/store/ngRx.module';
 import { ApiInterceptorService } from './core/services/api-interceptor.service';
+import { PipesModule } from './shared/pipes.module';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgRxModule],
+  declarations: [AppComponent, ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgRxModule, PipesModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

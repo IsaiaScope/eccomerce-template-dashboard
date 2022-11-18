@@ -1,6 +1,8 @@
 export type ImgWrapper = {
+  url?: string;
   name: string;
   path?: string;
+  type?: string;
   // class for set dimension up for svg and wrapper div
   keepDefCss?: boolean;
   wrapperClasses?: string[];
@@ -9,5 +11,6 @@ export type ImgWrapper = {
 export const imgWrapperDefault: ImgWrapper = {
   name: '',
   path: '../../../assets/svgs/imgs/',
-  wrapperClasses: ['wrapper-dim-alpha', 'wrapper-circle', 'wrapper-default'],
+  type: '.svg',
+  wrapperClasses: ['wrapper-default'],
 };

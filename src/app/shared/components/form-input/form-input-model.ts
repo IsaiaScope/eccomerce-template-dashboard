@@ -7,6 +7,8 @@ export interface FormInput {
   formGroupName: string;
   frontIcon?: SvgData;
   insideIcon?: SvgData;
+  wrapperClasses?: string[],
+  inputClasses?: string[],
 }
 
 export const formInputDefault: FormInput = {

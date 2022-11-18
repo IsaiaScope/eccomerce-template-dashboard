@@ -11,7 +11,8 @@ import { FormCheckBoxDefault } from './form-checkbox-model';
   selector: 'app-form-checkbox',
   template: ` <div
     [formGroup]="form"
-    class="flex-center form-checkbox-container"
+    class="align-center"
+    [ngClass]="setUp.wrapperClasses"
   >
     <input
       type="checkbox"
@@ -25,13 +26,8 @@ import { FormCheckBoxDefault } from './form-checkbox-model';
   styles: [
     `
       .form-checkbox {
-        &-container {
-          padding-block: var(--p-gamma);
-        }
         &-input {
           margin-right: var(--m-alpha);
-        }
-        &-label {
         }
       }
     `,

@@ -17,8 +17,21 @@
   justify-content: center;
 }
 
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
 .absolute-t0-l0 {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.m-bottom-beta {
+  margin-bottom: var(--m-beta);
+}
+
+.p-relative {
+  position: relative;
 }

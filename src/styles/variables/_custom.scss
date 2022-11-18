@@ -1,7 +1,7 @@
 @use "../abstracts" as *;
 
 :root {
-  --b-radius-alpha: 15px;
+  --b-radius-alpha: 1em;
   --b-radius-beta: 50%;
 
   --p-alpha: 0.4em 0.8em;
@@ -9,12 +9,15 @@
   --p-gamma: 0.5em;
 
   --m-alpha: 0.5em;
+  --m-beta: 1.8em;
 
   --b-alpha: 2px solid var(--c-Arkansas);
 
   --box-shadow-alpha: 3px 3px 10px 1px rgba(0, 0, 0, 0.4);
+  --box-shadow-beta: 1px 4px 10px -3px rgba(0, 0, 0, 0.4);
+  --box-shadow-gamma: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 
-  --svg-dimension-alpha: 1.5em;
+  --svg-dimension-alpha: 2em;
   --img-dimension-alpha: 11em;
   // --box-shadow-alpha: inset -0.6em -0.6em 1em rgba(165, 79, 29, 0.6),
   //   inset 0.4em 0.4em 0.5em rgba(245, 230, 221, 0.6),

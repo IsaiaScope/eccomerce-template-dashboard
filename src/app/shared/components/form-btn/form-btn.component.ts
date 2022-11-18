@@ -10,7 +10,7 @@ import { formBtnDefault } from './form-btn-model';
   selector: 'app-form-btn',
   template: `
     <button class="form-btn" [disabled]="disable">
-      {{ setUp.label }}
+      {{ setUp.label | titlecase }}
       {{ disable }}
     </button>
   `,
@@ -22,6 +22,7 @@ import { formBtnDefault } from './form-btn-model';
         padding: var(--p-alpha);
         box-shadow: var(--box-shadow-alpha);
         background: var(--c-Florida);
+        color: var(--c-Alaska);
       }
     `,
   ],

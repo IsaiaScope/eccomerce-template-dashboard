@@ -1,33 +1,45 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
+import { SvgIconRegistryService } from 'angular-svg-icon';
 import { SvgData, svgDataDefault } from './svg-model';
 
 @Component({
   selector: 'app-svg-data',
   template: `
     <!-- https://www.npmjs.com/package/angular-svg-icon doc here -->
-    <div [ngClass]="_setUp.wrapperClasses">
+    <div #wrapper [ngClass]="{ skeleton: !(icon$ | async) }">
       <svg-icon
         class="grid"
         [src]="_setUp.path + _setUp.name + '.svg'"
-        [svgClass]="_setUp.svgClasses"
+        [svgClass]="_setUp.svgClasses | cssFromObj"
       ></svg-icon>
     </div>
   `,
   styles: [
     `
       .svg {
-        &-share-default {
+        &-dim-default {
           width: var(--svg-dimension-alpha);
           height: var(--svg-dimension-alpha);
         }
 
-        &-icon-default {
-          fill: green;
+        &-fill-default {
+          fill: var(--c-Arizona);
         }
 
-        &-wrapper-default {
-          background-color: red;
-          margin-right: var(--m-alpha);
+        &-filter-default {
+          filter: var(--box-shadow-gamma);
+        }
+
+        &-wrapper {
+          &-form {
+            margin-right: var(--m-alpha);
+          }
         }
       }
     `,
@@ -35,30 +47,31 @@ import { SvgData, svgDataDefault } from './svg-model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SvgDataComponent {
+  @ViewChild('wrapper', { static: true }) wrapper: ElementRef;
   _setUp: SvgData;
+  icon$: any;
+
+  constructor(private iconReg: SvgIconRegistryService) {}
 
   @Input() set setUp(v: SvgData) {
+    const mergeSvgCss: Record<string, string | string[]> = {
+      ...svgDataDefault.svgClasses,
+      ...v.svgClasses,
+    };
+
     this._setUp = {
       ...svgDataDefault,
       ...v,
-      wrapperClasses: this.combineWC(v, svgDataDefault),
-      svgClasses: this.combineSC(v, svgDataDefault),
+      svgClasses: mergeSvgCss,
     };
-  }
 
-  constructor() {}
+    this.wrapper.nativeElement.classList.add(
+      ...[this._setUp.svgClasses?.dim].flat(),
+      ...(this._setUp.wrapperClasses || [])
+    );
 
-  combineSC(v: SvgData, def: SvgData) {
-    return [
-      ...(v.shareDimClass || def.shareDimClass!),
-      ...(v.svgClasses || def.svgClasses!),
-    ];
-  }
-
-  combineWC(v: SvgData, def: SvgData) {
-    return [
-      ...(v.shareDimClass || def.shareDimClass!),
-      ...(v.wrapperClasses || def.wrapperClasses!),
-    ];
+    this.icon$ = this.iconReg.loadSvg(
+      `${this._setUp.path}${this._setUp.name}.svg`
+    );
   }
 }

@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from './services/auth.service';
-import {
-  configLoginForm,
-  LoginForm,
-  structureLoginForm,
-} from './utility/login-config';
+import { loginConfig, LoginForm } from './utility/login-config';
 import { Store } from '@ngrx/store';
 import { login } from 'src/app/core/store/auth/auth.action';
 import { selectAuthState } from 'src/app/core/store';
@@ -18,9 +14,9 @@ import { map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
-  structureLoginForm = structureLoginForm;
+  config = loginConfig;
   loginForm = this.fb.group({
-    data: this.fb.group(configLoginForm),
+    data: this.fb.group(loginConfig.formField),
   });
   isLoggingIn$ = this.store
     .select(selectAuthState)

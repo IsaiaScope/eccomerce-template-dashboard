@@ -1,13 +1,15 @@
 <div class="auth-container grid-center">
   <div class="grid-center" class="auth-block">
-    <app-img-wrapper [setUp]="{ name: 'chopper' }"></app-img-wrapper>
+    <app-img-wrapper [setUp]="config.formImg"></app-img-wrapper>
     <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
-      <div *ngFor="let inputData of structureLoginForm.inputs">
+      <ng-container *ngFor="let inputData of config.formStructure.inputs">
         <app-form-input [setUp]="inputData"></app-form-input>
-      </div>
-      <div *ngFor="let checkBoxesData of structureLoginForm.checkBoxes">
+      </ng-container>
+      <ng-container
+        *ngFor="let checkBoxesData of config.formStructure.checkBoxes"
+      >
         <app-form-checkbox [setUp]="checkBoxesData"></app-form-checkbox>
-      </div>
+      </ng-container>
       <app-form-btn
         [setUp]="{ label: 'login' }"
         [disable]="(isLoggingIn$ | async)!"
