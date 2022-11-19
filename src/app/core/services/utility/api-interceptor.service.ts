@@ -17,11 +17,11 @@ import {
   tap,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { selectAuthState } from '../store';
-import { ErrorService } from './error/error.service';
-import { refreshToken } from '../store/auth/auth.action';
-import { ERROR, ERROR_TYPES } from './error/error-config';
-import { ROUTES } from 'src/app/core/services/routing/routes-config';
+import { selectAuthState } from '../../store';
+import { ErrorService } from '../error/error.service';
+import { refreshToken } from '../../store/auth/auth.action';
+import { ERROR, ERROR_TYPES } from '../error/error-config';
+import ENDPOINTS from 'src/app/shared/constants/endpoints';
 
 @Injectable({
   providedIn: 'root',
@@ -50,9 +50,9 @@ export class ApiInterceptorService implements HttpInterceptor {
     }
 
     if (
-      req.url.indexOf(ROUTES.endpoints.login) > -1 ||
-      req.url.indexOf(ROUTES.endpoints.refresh) > -1 ||
-      req.url.indexOf(ROUTES.endpoints.logout) > -1
+      req.url.indexOf(ENDPOINTS.login) > -1 ||
+      req.url.indexOf(ENDPOINTS.refresh) > -1 ||
+      req.url.indexOf(ENDPOINTS.logout) > -1
     ) {
       return next.handle(req).pipe(
         catchError((err: HttpErrorResponse | ErrorEvent) => {

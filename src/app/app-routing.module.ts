@@ -9,12 +9,12 @@ const routes: Routes = [
     redirectTo: 'home',
   },
   {
-    path: ROUTES.routePath.home,
+    path: ROUTES.path.home,
     loadChildren: () =>
       import('./features/home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: ROUTES.routePath.login,
+    path: ROUTES.path.login,
     loadChildren: () =>
       import('./features/login/login.module').then((m) => m.LoginModule),
   },

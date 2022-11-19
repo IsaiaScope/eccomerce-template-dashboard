@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
   loginSubmit() {
-    console.log(this.loginForm.value.data);
+    // console.log(this.loginForm.value.data);
     const { email, password, persistent } = this.loginForm.value
       .data as LoginForm;
     this.store.dispatch(login({ email, password, persistent }));

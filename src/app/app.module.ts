@@ -5,12 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgRxModule } from './core/store/ngRx.module';
-import { ApiInterceptorService } from './core/services/api-interceptor.service';
-import { PipesModule } from './shared/pipes.module';
+import { ApiInterceptorService } from './core/services/utility/api-interceptor.service';
 
 @NgModule({
-  declarations: [AppComponent, ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgRxModule, PipesModule],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgRxModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

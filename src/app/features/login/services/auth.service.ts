@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ROUTES } from 'src/app/core/services/routing/routes-config';
+import ENDPOINTS from 'src/app/shared/constants/endpoints';
 import { environment as env } from 'src/environments/environment';
 
 @Injectable({
@@ -26,7 +27,7 @@ export class AuthService {
   }
   // TODO remove
   addUser() {
-    return this.http.post(`${env.dashboardApi}/register`, {
+    return this.http.post(`${env.baseUrl}/register`, {
       email: 'iso_on_fire@hotmail.com',
       password: 'Test1234@',
     });
@@ -37,7 +38,7 @@ export class AuthService {
     password: string;
   }): Observable<{ accessToken: string }> {
     return this.http.post<{ accessToken: string }>(
-      `${env.dashboardApi}/${ROUTES.endpoints.login}`,
+      `${env.baseUrl}/${ENDPOINTS.login}`,
       loginFormValue,
       { withCredentials: true }
     );
@@ -45,7 +46,7 @@ export class AuthService {
 
   refresh(): Observable<{ accessToken: string }> {
     return this.http.get<{ accessToken: string }>(
-      `${env.dashboardApi}/${ROUTES.endpoints.refresh}`,
+      `${env.baseUrl}/${ENDPOINTS.refresh}`,
       {
         withCredentials: true,
       }
@@ -53,7 +54,7 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.get(`${env.dashboardApi}/${ROUTES.endpoints.logout}`, {
+    return this.http.get(`${env.baseUrl}/${ENDPOINTS.logout}`, {
       withCredentials: true,
     });
   }

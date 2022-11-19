@@ -8,6 +8,9 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SvgDataComponent } from './svg/svg-data.component';
 import { ImgWrapperComponent } from './img-wrapper/img-wrapper.component';
 import { PipesModule } from '../pipes.module';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { ExpansionPanelComponent } from './expansion-panel/expansion-panel.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +19,9 @@ import { PipesModule } from '../pipes.module';
     FormCheckboxComponent,
     SvgDataComponent,
     ImgWrapperComponent,
+    HeaderComponent,
+    FooterComponent,
+    ExpansionPanelComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +35,9 @@ import { PipesModule } from '../pipes.module';
     FormCheckboxComponent,
     SvgDataComponent,
     ImgWrapperComponent,
+    HeaderComponent,
+    FooterComponent,
+    ExpansionPanelComponent,
   ],
 })
 export class ComponentsModule {}

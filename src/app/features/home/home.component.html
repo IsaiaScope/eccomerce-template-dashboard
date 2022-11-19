@@ -1,6 +1,9 @@
-<p>home works</p>
-{{ someData$ | async | json }}
-<!-- {{ someData2$ | async | json }}
-{{ someData3$ | async | json }} -->
+<app-header></app-header>
+{{ clusterInfo$ | async | json }}
+<!-- {{ someData2$ | async | json }} -->
+<!-- {{ someData3$ | async | json }} -->
 <br />
 <button (click)="logoutClick()">Logout</button>
+<app-footer></app-footer>
+
+<app-expansion-panel></app-expansion-panel>
