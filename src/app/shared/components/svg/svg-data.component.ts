@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { SvgIconRegistryService } from 'angular-svg-icon';
+import { Observable } from 'rxjs';
 import { SvgData, svgDataDefault } from './svg-model';
 
 @Component({
@@ -50,7 +51,7 @@ import { SvgData, svgDataDefault } from './svg-model';
 export class SvgDataComponent {
   @ViewChild('wrapper', { static: true }) wrapper: ElementRef;
   _setUp: SvgData;
-  icon$: any;
+  icon$: Observable<SVGElement | undefined> | undefined;
 
   constructor(private iconReg: SvgIconRegistryService) {}
 
