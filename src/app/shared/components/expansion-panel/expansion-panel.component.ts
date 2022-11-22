@@ -3,60 +3,63 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 @Component({
   selector: 'app-expansion-panel',
   template: `
-    <div class="wrapper">
-      <div (click)="toggle()" class="header">Title</div>
-      <div class="content" [ngClass]="{ open: isOpen }" #content>
-        <p #data>
-          Laborum et adipisicing excepteur ea quis ipsum est labore ullamco
-          ullamco cillum. Commodo do magna aute veniam duis tempor pariatur. Ut
-          dolor ex est officia occaecat quis consequat. Ad consectetur excepteur
-          minim minim enim pariatur velit est ex adipisicing ex velit magna.
-          Elit aliqua labore veniam dolore nulla ea est aute. Mollit adipisicing
-          cillum voluptate id consequat laborum. Reprehenderit mollit minim ut
-          sunt adipisicing aute incididunt veniam cupidatat adipisicing minim
-          cupidatat. Voluptate nostrud in ipsum in non culpa veniam ullamco.
-          Aute qui in ex amet laboris pariatur aliqua sunt. Ipsum cupidatat
-          dolore amet sunt commodo anim laboris laboris enim culpa magna
-          deserunt consectetur ad. Eu veniam ullamco magna mollit qui elit.
-        </p>
+    <div class="accordion">
+      <label class="accordion-label align-center"
+        ><input class="accordion-checkbox" type="checkbox" />
+        <span> accordion </span>
+      </label>
+      <div class="accordion-content" #data>
+        <div class="accordion-content-data">
+          <p>
+            Laborum et adipisicing excepteur ea quis ipsum est labore ullamco
+            ullamco cillum. Commodo do magna aute veniam duis tempor pariatur.
+            Ut dolor ex est officia occaecat quis consequat. Ad consectetur
+            excepteur minim minim enim pariatur velit est ex adipisicing ex
+          </p>
+          <button>Ciao</button>
+          <button>Ciao</button>
+          <button>Ciao</button>
+          <button>Ciao</button>
+        </div>
       </div>
     </div>
   `,
   styles: [
     `
-      .content {
-        background-color: red;
-        height: 0;
-        visibility: hidden;
-        opacity: 0;
-        transition: 2s easy-in-out;
-      }
-      .open {
-        background-color: yellow;
-        visibility: visible;
-        opacity: 1;
-      }
-      .header {
-        background-color: green;
+      @use '../../../../styles/abstracts' as *;
+
+      .accordion {
+        border-radius: var(--b-radius-alpha);
+        padding: var(--p-alpha);
+        box-shadow: var(--box-shadow-alpha);
+        background: var(--c-Florida);
+        color: var(--c-Alaska);
+        &-checkbox {
+          display: none;
+        }
+        &-label {
+          cursor: pointer;
+          padding: 10px;
+        }
+        &-label:has(&-checkbox:checked) ~ &-content {
+          overflow: auto;
+          max-height: 500px;
+        }
+        &-content {
+          @include hideScrollBar;
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.9s, easy-in-out;
+          &-data {
+            padding: 10px;
+          }
+        }
       }
     `,
   ],
 })
 export class ExpansionPanelComponent implements OnInit {
-  @ViewChild('content', { static: true }) content: ElementRef;
-  @ViewChild('data', { static: true }) data: ElementRef;
-  isOpen = false;
   constructor() {}
 
   ngOnInit(): void {}
-  toggle() {
-    // console.log(this.content.nativeElement.outerHeight(true));
-    if (this.isOpen) {
-      this.content.nativeElement.style.height = `${this.data.nativeElement.offsetHeight}px`;
-    } else {
-      this.content.nativeElement.style.height = `0px`;
-    }
-    this.isOpen = !this.isOpen;
-    console.log(this.content);
-  }
 }

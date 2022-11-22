@@ -9,26 +9,27 @@ import { FormCheckBoxDefault } from './form-checkbox-model';
 
 @Component({
   selector: 'app-form-checkbox',
-  template: ` <div
-    [formGroup]="form"
-    class="align-center"
-    [ngClass]="setUp.wrapperClasses"
-  >
-    <input
-      type="checkbox"
-      [formControlName]="setUp.formControlName"
-      class="form-checkbox-input"
-    />
-    <label *ngIf="setUp.label" class='class="form-checkbox-input"'>{{
-      setUp.label
-    }}</label>
+  template: ` <div [formGroup]="form" [ngClass]="setUp.wrapperClasses">
+    <label *ngIf="setUp.label" class="form-checkbox-label align-center">
+      <input
+        type="checkbox"
+        [formControlName]="setUp.formControlName"
+        class="form-checkbox-input"
+      />{{ setUp.label }}</label
+    >
   </div>`,
   styles: [
     `
       .form-checkbox {
+        &-label,
+        &-input {
+          cursor: pointer;
+        }
         &-input {
           margin-right: var(--m-alpha);
-          cursor: pointer;
+        }
+        &-label {
+          width: fit-content;
         }
       }
     `,
