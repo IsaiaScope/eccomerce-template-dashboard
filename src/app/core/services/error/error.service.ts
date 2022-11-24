@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { throwError } from 'rxjs';
+import ENDPOINTS from 'src/app/shared/constants/endpoints';
 import { authError, logout } from '../../store/auth/auth.action';
 import { RoutingService } from '../routing/routing.service';
 import { ERROR, ERROR_TYPES } from './error-config';
@@ -33,11 +34,11 @@ export class ErrorService {
 
     switch (from) {
       case ERROR_TYPES.authApi:
-        this.handleAuthErr(err.status);
+        this.handleAuthErr(err);
         this.store.dispatch(authError({ err }));
         break;
       case ERROR_TYPES.generalApi:
-        this.handleGeneralErr(err.status);
+        this.handleGeneralErr(err);
         this.store.dispatch(authError({ err }));
         break;
     }
@@ -45,16 +46,17 @@ export class ErrorService {
     return throwError(() => new Error(`Server side error`));
   }
 
-  handleAuthErr(status: number) {
+  handleAuthErr(err: HttpErrorResponse) {
+    const { url, status } = err;
     switch (status) {
       case ERROR.badRequest:
         // handle 400 on logout
-        this.routeSRv.moveToLogin();
+        url?.includes(ENDPOINTS.logout) && this.routeSRv.moveToLogin();
         break;
     }
   }
 
-  handleGeneralErr(status: number) {
+  handleGeneralErr(err: HttpErrorResponse) {
     return;
   }
 

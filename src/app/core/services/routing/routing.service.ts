@@ -9,6 +9,7 @@ export class RoutingService {
   constructor(private router: Router) {}
 
   moveToLogin() {
+    console.log(`navigate to ${ROUTES.path.login}`);
     this.router.navigate([ROUTES.path.login]).then();
   }
   moveToHome() {

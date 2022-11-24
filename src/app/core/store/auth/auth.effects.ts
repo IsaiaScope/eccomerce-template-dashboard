@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilKeyChanged,
+  exhaustMap,
+  filter,
+  map,
+  tap,
+} from 'rxjs/operators';
 import { AuthService } from 'src/app/features/login/services/auth.service';
 import { RoutingService } from '../../services/routing/routing.service';
 import { LocalStorageService as LS } from '../../services/local-storage/local-storage.service';
@@ -56,7 +62,8 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(authAction.logout),
       exhaustMap(() => this.store.select(selectAuthState)),
-      take(1),
+      distinctUntilKeyChanged('isLoggingOut'),
+      filter(({ isLoggingOut }) => isLoggingOut === true),
       map((state) => state.userInfo?.userId ?? ''),
       exhaustMap((id) =>
         this.authSrv.logout(id).pipe(map(() => authAction.logoutSuccess()))

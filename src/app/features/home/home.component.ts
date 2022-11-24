@@ -12,7 +12,9 @@ import { AuthService } from '../login/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  clusterInfo$ = this.dbSrv.getClusterInfo();
+  clusterInfo$ = timer(0, 25000).pipe(
+    switchMap(() => this.dbSrv.getClusterInfo())
+  );
 
   constructor(
     private store: Store,
