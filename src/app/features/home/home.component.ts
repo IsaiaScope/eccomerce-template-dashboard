@@ -14,10 +14,17 @@ import { AuthService } from '../login/services/auth.service';
 export class HomeComponent implements OnInit {
   clusterInfo$ = this.dbSrv.getClusterInfo();
 
-  constructor(private store: Store, private dbSrv: DbService) {}
+  constructor(
+    private store: Store,
+    private dbSrv: DbService,
+    private authSrv: AuthService
+  ) {}
   ngOnInit(): void {}
 
   logoutClick() {
     this.store.dispatch(logout());
+  }
+  addUser() {
+    this.authSrv.addUser().subscribe(console.log);
   }
 }

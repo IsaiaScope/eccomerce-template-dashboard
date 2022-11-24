@@ -21,11 +21,7 @@ export class LoginComponent implements OnInit {
   isLoggingIn$ = this.store
     .select(selectAuthState)
     .pipe(map(({ isLoggingIn }) => isLoggingIn));
-  constructor(
-    private fb: FormBuilder,
-    private authSrv: AuthService,
-    private store: Store
-  ) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {}
   loginSubmit() {
@@ -33,8 +29,5 @@ export class LoginComponent implements OnInit {
     const { email, password, persistent } = this.loginForm.value
       .data as LoginForm;
     this.store.dispatch(login({ email, password, persistent }));
-  }
-  addUser() {
-    this.authSrv.addUser().subscribe(console.log);
   }
 }

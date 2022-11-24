@@ -18,6 +18,7 @@ export class ErrorService {
       return throwError(() => new Error(`Client side error`));
     }
 
+    // error shared between auth and general
     switch (err.status) {
       case ERROR.serverDown:
         this.routeSRv.moveToLogin();
@@ -32,10 +33,29 @@ export class ErrorService {
 
     switch (from) {
       case ERROR_TYPES.authApi:
+        this.handleAuthErr(err.status);
+        this.store.dispatch(authError({ err }));
+        break;
+      case ERROR_TYPES.generalApi:
+        this.handleGeneralErr(err.status);
         this.store.dispatch(authError({ err }));
         break;
     }
+
     return throwError(() => new Error(`Server side error`));
+  }
+
+  handleAuthErr(status: number) {
+    switch (status) {
+      case ERROR.badRequest:
+        // handle 400 on logout
+        this.routeSRv.moveToLogin();
+        break;
+    }
+  }
+
+  handleGeneralErr(status: number) {
+    return;
   }
 
   logout() {

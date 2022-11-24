@@ -53,9 +53,13 @@ export class AuthService {
     );
   }
 
-  logout() {
-    return this.http.get(`${env.baseUrl}/${ENDPOINTS.logout}`, {
-      withCredentials: true,
-    });
+  logout(id: string) {
+    return this.http.post(
+      `${env.baseUrl}/${ENDPOINTS.logout}`,
+      { id },
+      {
+        withCredentials: true,
+      }
+    );
   }
 }

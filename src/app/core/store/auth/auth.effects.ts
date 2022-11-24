@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map, tap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/features/login/services/auth.service';
 import { RoutingService } from '../../services/routing/routing.service';
-import {
-  LocalStorageService as LS,
-} from '../../services/local-storage/local-storage.service';
+import { LocalStorageService as LS } from '../../services/local-storage/local-storage.service';
 import * as authAction from './auth.action';
 import { LS_VALUES } from '../../services/local-storage/local-storage-config';
+import { Store } from '@ngrx/store';
+import { selectAuthState } from '..';
 
 @Injectable()
 export class AuthEffects {
@@ -55,8 +55,11 @@ export class AuthEffects {
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authAction.logout),
-      exhaustMap(() =>
-        this.authSrv.logout().pipe(map(() => authAction.logoutSuccess()))
+      exhaustMap(() => this.store.select(selectAuthState)),
+      take(1),
+      map((state) => state.userInfo?.userId ?? ''),
+      exhaustMap((id) =>
+        this.authSrv.logout(id).pipe(map(() => authAction.logoutSuccess()))
       )
     )
   );
@@ -76,6 +79,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authSrv: AuthService,
-    private routeSRv: RoutingService
+    private routeSRv: RoutingService,
+    private store: Store
   ) {}
 }
