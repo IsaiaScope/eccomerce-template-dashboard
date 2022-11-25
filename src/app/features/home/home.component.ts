@@ -23,7 +23,8 @@ export class HomeComponent implements OnInit {
           },
         ],
       };
-    })
+    }),
+    map(({ data }) => data)
     // switchMap(() => this.dbSrv.getClusterInfo())
   );
 

@@ -13,7 +13,10 @@ import { SvgData, svgDataDefault } from './svg-model';
   selector: 'app-svg-data',
   template: `
     <!-- https://www.npmjs.com/package/angular-svg-icon doc here -->
-    <div #wrapper [ngClass]="{ skeleton: !(icon$ | async) }">
+    <div
+      #wrapper
+      [ngClass]="{ 'skeleton svg-wrapper-corner': !(icon$ | async) }"
+    >
       <svg-icon
         class="grid opacity-hide"
         [ngClass]="{ 'opacity-show': icon$ | async }"
@@ -41,6 +44,9 @@ import { SvgData, svgDataDefault } from './svg-model';
         &-wrapper {
           &-form {
             margin-right: var(--m-alpha);
+          }
+          &-corner {
+            border-radius: var(--b-radius-gamma);
           }
         }
       }

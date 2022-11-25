@@ -11,6 +11,8 @@ import { PipesModule } from '../pipes.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ExpansionPanelComponent } from './expansion-panel/expansion-panel.component';
+import { CustomBtnComponent } from './custom-btn/custom-btn.component';
+import { ActionsLabelComponent } from './actions-label/actions-label.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { ExpansionPanelComponent } from './expansion-panel/expansion-panel.compo
     HeaderComponent,
     FooterComponent,
     ExpansionPanelComponent,
+    CustomBtnComponent,
+    ActionsLabelComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +42,8 @@ import { ExpansionPanelComponent } from './expansion-panel/expansion-panel.compo
     HeaderComponent,
     FooterComponent,
     ExpansionPanelComponent,
+    CustomBtnComponent,
+    ActionsLabelComponent,
   ],
 })
 export class ComponentsModule {}

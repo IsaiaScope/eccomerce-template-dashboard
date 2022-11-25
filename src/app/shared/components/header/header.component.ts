@@ -2,19 +2,18 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
-  template: `
-    <p>
-      header works!
-    </p>
-  `,
+  template: ` <header>header works!</header> `,
   styles: [
-  ]
+    `
+      header {
+        background-color: black;
+        color: white;
+      }
+    `,
+  ],
 })
 export class HeaderComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

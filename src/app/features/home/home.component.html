@@ -4,7 +4,13 @@
 <!-- {{ someData3$ | async | json }} -->
 <br />
 <button (click)="logoutClick()">Logout</button>
-<app-footer></app-footer>
-
-<app-expansion-panel></app-expansion-panel>
+<ng-container *ngIf="clusterInfo$ | async as DBs">
+  <ng-container *ngFor="let DB of DBs">
+    <app-expansion-panel>
+      <app-actions-label></app-actions-label>
+    </app-expansion-panel>
+  </ng-container>
+</ng-container>
 <button (click)="addUser()">Register</button>
+
+<app-footer></app-footer>

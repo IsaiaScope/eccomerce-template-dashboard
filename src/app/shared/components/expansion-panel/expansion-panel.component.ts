@@ -1,25 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SvgData } from '../svg/svg-model';
 
 @Component({
   selector: 'app-expansion-panel',
   template: `
     <div class="accordion">
       <label class="accordion-label align-center"
-        ><input class="accordion-checkbox" type="checkbox" />
+        ><input class="accordion-checkbox" type="checkbox" checked />
         <span> accordion </span>
+        <app-svg-data class="svg" [setUp]="svg"></app-svg-data>
       </label>
       <div class="accordion-content" #data>
         <div class="accordion-content-data">
-          <p>
-            Laborum et adipisicing excepteur ea quis ipsum est labore ullamco
-            ullamco cillum. Commodo do magna aute veniam duis tempor pariatur.
-            Ut dolor ex est officia occaecat quis consequat. Ad consectetur
-            excepteur minim minim enim pariatur velit est ex adipisicing ex
-          </p>
-          <button>Ciao</button>
-          <button>Ciao</button>
-          <button>Ciao</button>
-          <button>Ciao</button>
+          <ng-content></ng-content>
         </div>
       </div>
     </div>
@@ -27,29 +20,43 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
   styles: [
     `
       @use '../../../../styles/abstracts' as *;
-
       .accordion {
-        border-radius: var(--b-radius-alpha);
-        padding: var(--p-alpha);
         box-shadow: var(--box-shadow-alpha);
-        background: var(--c-Florida);
-        color: var(--c-Alaska);
+        background: red;
+        // smooth bottom corner
+        overflow: hidden;
         &-checkbox {
           display: none;
         }
+        &,
         &-label {
+          border-radius: var(--b-radius-alpha);
+        }
+        &-label {
+          padding: var(--p-alpha);
+          color: var(--c-Alaska);
+          background: var(--c-Florida);
+
           cursor: pointer;
-          padding: 10px;
+          .svg {
+            transition: all 0.5s;
+          }
         }
-        &-label:has(&-checkbox:checked) ~ &-content {
-          overflow: auto;
-          max-height: 500px;
+        &-label:has(&-checkbox:checked) {
+          & ~ .accordion-content {
+            max-height: 1000em;
+            transition: max-height 1.5s ease-in-out;
+          }
+          & .svg {
+            transform: rotate(180deg);
+          }
         }
+
         &-content {
-          @include hideScrollBar;
           max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.9s, easy-in-out;
+          transition: max-height 0.75s cubic-bezier(0, 1, 0, 1);
+          overflow: scroll;
+          @include hideScrollBar;
           &-data {
             padding: 10px;
           }
@@ -59,6 +66,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
   ],
 })
 export class ExpansionPanelComponent implements OnInit {
+  svg: SvgData = { name: 'arrow_circle_down' };
   constructor() {}
 
   ngOnInit(): void {}
