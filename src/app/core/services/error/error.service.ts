@@ -25,21 +25,19 @@ export class ErrorService {
         this.routeSRv.moveToLogin();
         break;
       case ERROR.unauthorized:
-        this.logout();
         break;
       case ERROR.forbidden:
-        this.logout();
         break;
     }
 
     switch (from) {
       case ERROR_TYPES.authApi:
         this.handleAuthErr(err);
+        // [ ] TODO check behavior with refresh api
         this.store.dispatch(authError({ err }));
         break;
       case ERROR_TYPES.generalApi:
         this.handleGeneralErr(err);
-        this.store.dispatch(authError({ err }));
         break;
     }
 
@@ -52,6 +50,12 @@ export class ErrorService {
       case ERROR.badRequest:
         // handle 400 on logout
         url?.includes(ENDPOINTS.logout) && this.routeSRv.moveToLogin();
+        break;
+      case ERROR.unauthorized:
+        this.logout();
+        break;
+      case ERROR.forbidden:
+        this.logout();
         break;
     }
   }

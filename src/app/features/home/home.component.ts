@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { switchMap, timer } from 'rxjs';
+import { map, switchMap, timer } from 'rxjs';
 import { DbService } from 'src/app/core/services/utility/db.service';
 import { logout } from 'src/app/core/store/auth/auth.action';
 import { AuthService } from '../login/services/auth.service';
@@ -13,7 +13,18 @@ import { AuthService } from '../login/services/auth.service';
 })
 export class HomeComponent implements OnInit {
   clusterInfo$ = timer(0, 25000).pipe(
-    switchMap(() => this.dbSrv.getClusterInfo())
+    map(() => {
+      return {
+        data: [
+          { dbName: 'dashboard', listCollections: [{ name: 'users' }] },
+          {
+            dbName: 'ecommerce01',
+            listCollections: [{ name: 'products' }, { name: 'users' }],
+          },
+        ],
+      };
+    })
+    // switchMap(() => this.dbSrv.getClusterInfo())
   );
 
   constructor(

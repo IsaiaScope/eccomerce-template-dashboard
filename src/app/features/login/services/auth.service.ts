@@ -30,6 +30,7 @@ export class AuthService {
     return this.http.post(`${env.baseUrl}/register`, {
       email: 'iso_on_fire@hotmail.com',
       password: 'Test1234@',
+      role: 'admin',
     });
   }
 
