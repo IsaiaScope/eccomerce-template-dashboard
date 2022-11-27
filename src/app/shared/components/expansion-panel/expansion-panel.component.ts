@@ -1,14 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SvgData } from '../svg/svg-model';
 
 @Component({
   selector: 'app-expansion-panel',
   template: `
     <div class="accordion">
-      <label class="accordion-label align-center"
-        ><input class="accordion-checkbox" type="checkbox" checked />
-        <span> accordion </span>
-        <app-svg-data class="svg" [setUp]="svg"></app-svg-data>
+      <label class="accordion-label flex  s-between">
+        <input
+          class="accordion-checkbox"
+          (change)="handleCheckStatus($event)"
+          type="checkbox"
+          checked
+        />
+        <div class=" align-center">
+          <span class="accordion-title"> {{ setUp.title }} </span>
+          <app-svg-data class="svg" [setUp]="svg"></app-svg-data>
+        </div>
+        <div class="align-center">
+          <ng-content select=".accordion-header-btn"></ng-content>
+        </div>
       </label>
       <div class="accordion-content" #data>
         <div class="accordion-content-data">
@@ -25,6 +35,9 @@ import { SvgData } from '../svg/svg-model';
         background: red;
         // smooth bottom corner
         overflow: hidden;
+        margin-bottom: 2em;
+        margin-inline: 1.5em;
+        /* width: fit-content; */
         &-checkbox {
           display: none;
         }
@@ -36,29 +49,32 @@ import { SvgData } from '../svg/svg-model';
           padding: var(--p-alpha);
           color: var(--c-Alaska);
           background: var(--c-Florida);
-
           cursor: pointer;
           .svg {
-            transition: all 0.5s;
+            transition: transform 0.4s;
           }
         }
         &-label:has(&-checkbox:checked) {
           & ~ .accordion-content {
-            max-height: 1000em;
-            transition: max-height 1.5s ease-in-out;
+            max-height: 500em;
+            transition: max-height 1s ease-in-out;
           }
           & .svg {
             transform: rotate(180deg);
           }
         }
 
+        &-title {
+          margin-right: 0.7em;
+        }
+
         &-content {
           max-height: 0;
-          transition: max-height 0.75s cubic-bezier(0, 1, 0, 1);
+          transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
           overflow: scroll;
           @include hideScrollBar;
           &-data {
-            padding: 10px;
+            padding: 0.8em;
           }
         }
       }
@@ -66,8 +82,13 @@ import { SvgData } from '../svg/svg-model';
   ],
 })
 export class ExpansionPanelComponent implements OnInit {
+  @Input() setUp = { title: '' };
   svg: SvgData = { name: 'arrow_circle_down' };
   constructor() {}
 
   ngOnInit(): void {}
+
+  handleCheckStatus(e: Event) {
+    console.log((e.target as HTMLInputElement).checked);
+  }
 }

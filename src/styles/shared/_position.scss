@@ -22,6 +22,14 @@
   align-items: center;
 }
 
+.s-between {
+  justify-content: space-between;
+}
+
+.s-around {
+  justify-content: space-around;
+}
+
 .absolute-t0-l0 {
   position: absolute;
   top: 0;
