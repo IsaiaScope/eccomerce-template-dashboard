@@ -78,7 +78,6 @@ export class FormInputComponent implements OnInit {
       text: { type: 'password', icon: 'visibility_off' },
       password: { type: 'text', icon: 'visibility' },
     };
-    console.log(type);
     this.input.nativeElement.type = map[type].type;
     this.setUp = {
       ...this.setUp,

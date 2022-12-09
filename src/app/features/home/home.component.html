@@ -1,22 +1,89 @@
-<app-header></app-header>
-{{ clusterInfo$ | async | json }}
-<!-- {{ someData2$ | async | json }} -->
-<!-- {{ someData3$ | async | json }} -->
-<br />
-<button (click)="logoutClick()">Logout</button>
-<ng-container *ngIf="clusterInfo$ | async as DBs">
-  <app-expansion-panel
-    *ngFor="let DB of DBs"
-    [setUp]="{ title: DB.dbName | titlecase }"
-  >
-    <app-custom-btn
-      *ngFor="let item of ['add', 'delete']"
-      class="accordion-header-btn"
-      [title]="item"
-    ></app-custom-btn>
-    <app-actions-label></app-actions-label>
-  </app-expansion-panel>
-</ng-container>
-<button (click)="addUser()">Register</button>
+<div class="main-container-wrapper">
+  <app-header></app-header>
+  <!-- {{ clusterInfo$ | async | json }} -->
+  <!-- {{ someData2$ | async | json }} -->
+  <!-- {{ someData3$ | async | json }} -->
+  <div class="fit-all-space">
+    <button (click)="logoutClick()">Logout</button>
+    <ng-container *ngIf="clusterInfo$ | async as DBs">
+      <app-expansion-panel
+        *ngFor="let DB of DBs; index as i"
+        [setUp]="{ title: DB.dbName | titlecase, checked }"
+      >
+        <!-- (checked)="toggleAccordion({ isOpen: $event, index: i })" -->
+        <app-custom-btn
+          *ngFor="let item of ['add', 'delete']"
+          class="accordion-header-btn"
+          [title]="item"
+        ></app-custom-btn>
+        <app-actions-label></app-actions-label>
+      </app-expansion-panel>
 
-<app-footer></app-footer>
+      <app-expansion-panel [setUp]="{ title: 'pino', checked: false }">
+        <p>
+          Cupidatat aliquip aute sint nisi Lorem proident sint pariatur
+          cupidatat magna officia ad minim deserunt. Nostrud laborum elit cillum
+          non mollit do consequat. Reprehenderit labore veniam amet est occaecat
+          cupidatat aliquip ad in velit nulla tempor magna. Duis sit ad
+          reprehenderit ullamco ex exercitation est sunt. Lorem velit nisi esse
+          irure. Ut duis velit esse nostrud nisi commodo. Veniam veniam laboris
+          id irure dolore labore ut pariatur sint consequat magna esse non est.
+          Ad Lorem proident velit aute proident incididunt id cupidatat
+          deserunt. Sit eu ipsum consectetur consectetur excepteur anim sunt.
+          Culpa eiusmod dolor ullamco ullamco et excepteur sint esse est eiusmod
+          consectetur sit consectetur fugiat. Minim officia officia anim ea sint
+          pariatur. Qui officia qui veniam aute sint qui. Ea et adipisicing ut
+          laborum est dolor esse. Excepteur sint ullamco velit laboris aute esse
+          proident pariatur quis aliquip aliquip pariatur. Ipsum ea elit sint
+          excepteur dolore nostrud. Deserunt ipsum consequat enim irure
+          reprehenderit ea incididunt commodo nisi do irure cillum. Enim Lorem
+          non officia in aliquip dolore culpa amet sunt consectetur.
+          Exercitation excepteur in non magna aute voluptate sunt enim magna
+          nulla aliqua amet nulla. Consectetur ad ad cillum fugiat ad voluptate
+          nisi ullamco reprehenderit incididunt nulla voluptate aliqua qui. Sint
+          reprehenderit deserunt est Lorem ea cillum id cupidatat incididunt
+          culpa aliquip. Ipsum culpa excepteur reprehenderit sint aute mollit
+          dolore eu nisi aute sunt consequat sunt laboris. Duis reprehenderit
+          non Lorem cillum in. Elit proident qui laboris veniam incididunt
+          laboris in ad. Exercitation elit dolore tempor cillum consequat aliqua
+          aute cupidatat culpa est est do eu esse. Sint sint laboris velit enim
+          in sint Lorem duis. Quis amet deserunt duis fugiat pariatur minim ut
+          velit duis est Lorem. Commodo commodo pariatur voluptate exercitation
+          consectetur ea dolore aute labore mollit deserunt consectetur ea
+          mollit. Laborum cupidatat fugiat sit tempor excepteur sunt sunt
+          aliquip laboris elit. Eiusmod nostrud dolore nostrud nostrud eu eu
+          reprehenderit commodo aliquip. Id nisi do exercitation nisi sunt.
+          Dolor est minim anim ut commodo irure. Sint eu nisi sint tempor ut
+          pariatur sint do occaecat nostrud amet. Cillum deserunt irure
+          reprehenderit eiusmod enim amet excepteur minim. Qui magna nisi
+          ullamco qui consectetur velit qui id labore irure dolore voluptate
+          aliquip deserunt. Eu consectetur tempor cillum mollit consequat magna
+          dolore aliquip non eiusmod. Id aliquip ex occaecat ea voluptate
+          cupidatat veniam enim nisi pariatur labore do occaecat. Eu sint esse
+          ut nulla ipsum. Deserunt exercitation ullamco nisi quis occaecat
+          adipisicing labore et occaecat labore ullamco exercitation est cillum.
+          Quis fugiat labore adipisicing aute et pariatur anim pariatur tempor
+          aute. Minim laborum duis enim anim adipisicing in pariatur. Incididunt
+          Lorem dolor voluptate ad qui. Id do cillum occaecat proident. Non in
+          nisi dolor velit. Ullamco adipisicing velit consequat consequat sint
+          aliqua sunt eiusmod dolor aliquip. Tempor est quis ipsum incididunt
+          anim nisi tempor consectetur minim amet duis eiusmod aute aliqua.
+          Exercitation id labore dolore cillum sint. In pariatur anim deserunt
+          labore tempor mollit. Adipisicing officia laboris commodo dolore Lorem
+          consectetur incididunt minim dolore aute eiusmod velit. Excepteur
+          ullamco fugiat sunt est incididunt irure culpa eu. Voluptate nulla
+          mollit pariatur laboris pariatur et pariatur ad cupidatat duis elit
+          quis irure ex. Anim duis reprehenderit aliquip culpa pariatur tempor
+          magna consequat qui cillum et. Laboris occaecat non labore voluptate
+          eiusmod commodo. Esse anim quis eu reprehenderit amet labore enim.
+        </p>
+      </app-expansion-panel>
+    </ng-container>
+    <button (click)="addUser()">Register</button>
+    <button (click)="checked = !checked">
+      {{ !checked ? "open all" : "close all" }}
+    </button>
+  </div>
+
+  <app-footer></app-footer>
+</div>

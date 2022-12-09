@@ -16,7 +16,7 @@ import { ImgWrapper, imgWrapperDefault } from './img-wrapper-config';
     <div #wrapper [ngClass]="{ skeleton: !(img$ | async) }">
       <img
         #img
-        class="img-default opacity-hide"
+        class="img-default h-100 opacity-hide"
         [ngClass]="{ 'opacity-show': img$ | async }"
         [src]="_setUp.url || _setUp.path + _setUp.name + _setUp.type"
         alt="login form image on top"
@@ -28,7 +28,6 @@ import { ImgWrapper, imgWrapperDefault } from './img-wrapper-config';
     `
       .img {
         &-default {
-          height: 100%;
           object-fit: cover;
           object-position: center;
         }

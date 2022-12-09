@@ -1,6 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged, map, switchMap, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+  timer,
+} from 'rxjs';
 import { DbService } from 'src/app/core/services/utility/db.service';
 import { logout } from 'src/app/core/store/auth/auth.action';
 import { AuthService } from '../login/services/auth.service';
@@ -12,6 +19,8 @@ import { AuthService } from '../login/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
+  checked = true;
+
   clusterInfo$ = timer(0, 2665000).pipe(
     map(() => {
       return {

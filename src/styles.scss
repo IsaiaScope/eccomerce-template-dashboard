@@ -5,7 +5,8 @@
 
 @use "./styles/shared/position";
 @use "./styles/shared/skeleton";
-@use "./styles/shared/tansitions";
+@use "./styles/shared/transitions";
+@use "./styles/shared/dimension";
 
 @use "./styles/variables/color";
 @use "./styles/variables/custom";
@@ -15,4 +16,16 @@ body {
   // font-family: Roboto, cursive, "Helvetica Neue", sans-serif;
   font-family: cursive, "Helvetica Neue", sans-serif;
   font-size: var(--fs-alpha);
+}
+
+body,
+.main-container-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+body,
+.main-container-wrapper,
+.form-container {
+  min-height: 100vh;
 }

@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { SvgData } from '../svg/svg-model';
 
 @Component({
@@ -7,10 +14,11 @@ import { SvgData } from '../svg/svg-model';
     <div class="accordion">
       <label class="accordion-label flex  s-between">
         <input
+          #input
           class="accordion-checkbox"
-          (change)="handleCheckStatus($event)"
+          (change)="checked.emit(input.checked)"
           type="checkbox"
-          checked
+          [checked]="setUp.checked"
         />
         <div class=" align-center">
           <span class="accordion-title"> {{ setUp.title }} </span>
@@ -56,7 +64,7 @@ import { SvgData } from '../svg/svg-model';
         }
         &-label:has(&-checkbox:checked) {
           & ~ .accordion-content {
-            max-height: 500em;
+            max-height: 400em;
             transition: max-height 1s ease-in-out;
           }
           & .svg {
@@ -80,9 +88,12 @@ import { SvgData } from '../svg/svg-model';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpansionPanelComponent implements OnInit {
-  @Input() setUp = { title: '' };
+  @Input() setUp = { title: '', checked: true };
+  @Output() checked = new EventEmitter<boolean>();
+
   svg: SvgData = { name: 'arrow_circle_down' };
   constructor() {}
 

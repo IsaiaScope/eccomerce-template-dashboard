@@ -11,6 +11,11 @@
   display: flex;
 }
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .flex-center {
   display: flex;
   align-items: center;
@@ -28,6 +33,10 @@
 
 .s-around {
   justify-content: space-around;
+}
+
+.fit-all-space {
+  flex: 1;
 }
 
 .absolute-t0-l0 {
