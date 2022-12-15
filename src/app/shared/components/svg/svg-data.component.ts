@@ -21,7 +21,7 @@ import { SvgData, svgDataDefault } from './svg-model';
         class="grid opacity-hide"
         [ngClass]="{ 'opacity-show': icon$ | async }"
         [src]="_setUp.path + _setUp.name + '.svg'"
-        [svgClass]="_setUp.svgClasses | cssFromObj"
+        [svgClass]="_setUp.svgClasses! | cssFromObj"
       ></svg-icon>
     </div>
   `,
