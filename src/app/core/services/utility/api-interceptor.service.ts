@@ -50,9 +50,9 @@ export class ApiInterceptorService implements HttpInterceptor {
     }
 
     if (
-      req.url.indexOf(ENDPOINTS.login) > -1 ||
-      req.url.indexOf(ENDPOINTS.refresh) > -1 ||
-      req.url.indexOf(ENDPOINTS.logout) > -1
+      req.url.indexOf(ENDPOINTS.auth.login) > -1 ||
+      req.url.indexOf(ENDPOINTS.auth.refresh) > -1 ||
+      req.url.indexOf(ENDPOINTS.auth.logout) > -1
     ) {
       return next.handle(req).pipe(
         catchError((err: HttpErrorResponse | ErrorEvent) => {

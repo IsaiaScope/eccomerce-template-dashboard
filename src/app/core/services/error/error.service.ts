@@ -49,7 +49,7 @@ export class ErrorService {
     switch (status) {
       case ERROR.badRequest:
         // handle 400 on logout
-        url?.includes(ENDPOINTS.logout) && this.routeSRv.moveToLogin();
+        url?.includes(ENDPOINTS.auth.logout) && this.routeSRv.moveToLogin();
         break;
       case ERROR.unauthorized:
         this.logout();

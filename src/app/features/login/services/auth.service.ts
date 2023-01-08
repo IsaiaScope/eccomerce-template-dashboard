@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ROUTES } from 'src/app/core/services/routing/routes-config';
 import ENDPOINTS from 'src/app/shared/constants/endpoints';
 import { environment as env } from 'src/environments/environment';
 
@@ -27,7 +26,7 @@ export class AuthService {
   }
   // TODO remove
   addUser() {
-    return this.http.post(`${env.baseUrl}/register`, {
+    return this.http.post(`${env.baseUrl}/${ENDPOINTS.auth.registerPath()}`, {
       email: 'iso_on_fire@hotmail.com',
       password: 'Test1234@',
       role: 'admin',
@@ -39,7 +38,7 @@ export class AuthService {
     password: string;
   }): Observable<{ accessToken: string }> {
     return this.http.post<{ accessToken: string }>(
-      `${env.baseUrl}/${ENDPOINTS.login}`,
+      `${env.baseUrl}/${ENDPOINTS.auth.loginPath()}`,
       loginFormValue,
       { withCredentials: true }
     );
@@ -47,7 +46,7 @@ export class AuthService {
 
   refresh(): Observable<{ accessToken: string }> {
     return this.http.get<{ accessToken: string }>(
-      `${env.baseUrl}/${ENDPOINTS.refresh}`,
+      `${env.baseUrl}/${ENDPOINTS.auth.refreshPath()}`,
       {
         withCredentials: true,
       }
@@ -56,7 +55,7 @@ export class AuthService {
 
   logout(id: string) {
     return this.http.post(
-      `${env.baseUrl}/${ENDPOINTS.logout}`,
+      `${env.baseUrl}/${ENDPOINTS.auth.logoutPath()}`,
       { id },
       {
         withCredentials: true,
